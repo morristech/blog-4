@@ -1,5 +1,5 @@
 blog
 ====
 
-Anything that can not fit in [tips](http://duleorlovic.github.io/tips), 
-should be in [blog](http://duleorlovic.github.io/blog)
+Anything that can not fit in [tips](http://tips.trk.in.rs), 
+should be in [blog](http://blog.trk.in.rs)
