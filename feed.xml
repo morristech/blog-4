@@ -1,0 +1,2436 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>duleorlovic - web developer</title>
+    <description>I am writing here some toughts during my work in Ruby on Rails, Javascript and other</description>
+    <link>http://duleorlovic.github.io/</link>
+    <atom:link href="http://duleorlovic.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Mon, 16 Mar 2020 10:45:40 +0100</pubDate>
+    <lastBuildDate>Mon, 16 Mar 2020 10:45:40 +0100</lastBuildDate>
+    <generator>Jekyll v4.0.0</generator>
+    
+      <item>
+        <title>Machine Vision Davies</title>
+        <description>&lt;p&gt;Machine Vision: Theory, Algorithms, Practicalities (Signal Processing and its Applications)&lt;/p&gt;
+
+&lt;p&gt;Davies&lt;/p&gt;
+
+&lt;p&gt;Usage of MV is:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;recognition problem (detect and determine characters)&lt;/li&gt;
+  &lt;li&gt;object location&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;22-image-proceessing-operations&quot;&gt;2.2 Image proceessing operations&lt;/h1&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;P0&lt;/code&gt; is byte image variable in 3x3 window, &lt;code class=&quot;highlighter-rouge&quot;&gt;P0 = 0..255&lt;/code&gt; and P0 is in center
+P4 P3 P2
+P5 P0 P1  this is 3x3 window. Left shift is &lt;code class=&quot;highlighter-rouge&quot;&gt;Q0 = P1&lt;/code&gt; (new image center is P1)
+P6 P7 P8
+&lt;code class=&quot;highlighter-rouge&quot;&gt;A0&lt;/code&gt; bit image variable in 3x3 &lt;code class=&quot;highlighter-rouge&quot;&gt;A0 = 0..1&lt;/code&gt;. Edge detection is sum neighbors
+bits and if all are 1 than output is 1.&lt;/p&gt;
+
+&lt;p&gt;Sigma values are used for:
+Shrink dark objects: only if all neighbors are 1 we leave that pixel, in other
+words if next to a light background than expand light background (into dark
+object).&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sigma = A1 + A2 ... + A8
+if (sigma &amp;lt; 8) B0 = 0 else B0 = A0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Oposite, expand dark object (shring light): if next to dark object than expand
+dark object.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;if (sigma &amp;gt; 0) B0 = 1 else B0 = A0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Edge finding for binary images: (if next to all dark, we mark it 0, else
+original)&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;if (sigma == 8) B0 = 0 else B0 = A0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;which can we shown in table (canceling all object except near dark)
+       sigma
+      0-7  8
+A0 0   0   0
+   1   1   0
+Remove salt noise (single 0 surrounded with 1) and remove pepper noise (remove
+binary value 1 surrounded with 0).&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;if (sigma&amp;lt;2) B0 = 0
+elsif (sigma &amp;gt; 6) B0 = 1
+else B0 = A0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;23-concolutions-and-point-spread-functions&quot;&gt;2.3 Concolutions and Point spread functions&lt;/h1&gt;
+</description>
+        <pubDate>Thu, 05 Mar 2020 00:00:00 +0100</pubDate>
+        <link>http://duleorlovic.github.io/2020/03/05/machine-vision-davies/</link>
+        <guid isPermaLink="true">http://duleorlovic.github.io/2020/03/05/machine-vision-davies/</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>Opencv Computer Vision</title>
+        <description>&lt;h1 id=&quot;installing-in-python&quot;&gt;Installing in python&lt;/h1&gt;
+
+&lt;p&gt;https://docs.opencv.org/master/d6/d00/tutorial_py_root.html&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt install python-opencv ipython
+ipython
+import cv2 as cv
+print cv.__version__
+4.1.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;https://docs.opencv.org/4.2.0/dc/d2e/tutorial_py_image_display.html
+Gui&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;file_name = 'test/fixtures/files/computer_text.png'
+img = cv.imread(file_name, cv.IMREAD_GRAYSCALE)
+cv.rectangle(img,(384,0),(510,128),(0,255,0),3)
+cv.imshow('window_name', img)
+cv.waitKey(0)
+cv.destroyAllWindows()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Operations https://docs.opencv.org/4.2.0/d3/df2/tutorial_py_basic_ops.html&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;print img.shape, img.size, img.dtype
+rows,cols,channels = img2.shape
+
+# split rgb channels
+b,g,r = cv.split(img)
+img = cv.merge((b,g,r))
+
+# convert to grayscale
+gray = cv.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+# OpenCV add uses saturation (max 255) and Numpy uses moduo
+x = np.uint8([250])
+y = np.uint8([10])
+print( cv.add(x,y) ) # 250+10 = 260 =&amp;gt; 255
+print( x+y )          # 250+10 = 260 % 256 = 4
+
+# blend, merge two images
+dst = cv.addWeighted(img1,0.7,img2,0.3,0)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Image processing https://docs.opencv.org/4.2.0/d2/d96/tutorial_py_table_of_contents_imgproc.html&lt;/p&gt;
+
+&lt;h1 id=&quot;python-syntax&quot;&gt;Python syntax&lt;/h1&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# debugger
+import pdb; pdb.set_trace()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;array[1:10, 50:60]&lt;/code&gt; select area in Numpy 2D array&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dict(name=&quot;Dule&quot;,sport=&quot;Kayak&quot;)&lt;/code&gt; dicionary is the same as defining as hash
+&lt;code class=&quot;highlighter-rouge&quot;&gt;{ &quot;name&quot;: &quot;Dule&quot;, &quot;sport&quot;: &quot;Kayak&quot;}&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;a[st==1]&lt;/code&gt; selecting only…&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;ruby-wrapper&quot;&gt;Ruby wrapper&lt;/h1&gt;
+
+&lt;p&gt;https://github.com/D-Alex/ropencv&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install ruby rubygems cmake g++ libopencv-dev
+gem install ropencv
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;require 'ropencv'
+include OpenCV
+
+img = cv::imread(file_name)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;interesting&quot;&gt;Interesting&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;bar code scanner https://www.pyimagesearch.com/2014/11/24/detecting-barcodes-images-python-opencv&lt;/li&gt;
+  &lt;li&gt;https://github.com/jasonmayes/Real-Time-Person-Removal&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Thu, 27 Feb 2020 00:00:00 +0100</pubDate>
+        <link>http://duleorlovic.github.io/2020/02/27/opencv-computer-vision/</link>
+        <guid isPermaLink="true">http://duleorlovic.github.io/2020/02/27/opencv-computer-vision/</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>Amazon Aws Textract</title>
+        <description>&lt;p&gt;Demo https://console.aws.amazon.com/textract/home?region=us-east-1#/demo
+Example app demo for redact https://youtu.be/Hth17MmxwtQ?t=521
+https://docs.aws.amazon.com/textract/latest/dg/other-examples.html
+Sample python apps
+https://github.com/aws-samples/amazon-textract-code-samples/tree/master/python
+and full
+https://github.com/aws-samples/amazon-textract-textractor&lt;/p&gt;
+
+&lt;h1 id=&quot;python-boto3&quot;&gt;Python boto3&lt;/h1&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python3 -m pip install boto3
+
+python3
+import boto3
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;ruby-aws-sdk&quot;&gt;Ruby aws-sdk&lt;/h1&gt;
+
+&lt;p&gt;https://docs.aws.amazon.com/sdk-for-ruby/v3/api/
+https://docs.aws.amazon.com/sdk-for-ruby/v3/developer-guide/welcome.html
+https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/S3/Resource.html&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;irb
+require 'aws-sdk-s3'  # v2: require 'aws-sdk'
+
+s3 = Aws::S3::Resource.new(region: 'us-east-1')
+
+s3.buckets.limit(50).each do |b|
+  puts &quot;#{b.name}&quot;
+end
+bucket = s3.bucket bucket
+bucket.map {|o| o.public_url}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Also SNS publish https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SNS/Client.html#publish-instance_method&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;require 'aws-sdk-sns'
+client = Aws::SNS::Client.new
+resp = client.publish(
+  topic_arn: topic_arn,
+  message: &quot;message&quot;, # required
+)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;For https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Textract.html
+and client
+https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Textract/Client.html#detect_document_text-instance_method
+and particular type
+https://docs.aws.amazon.com/textract/latest/dg/API_DetectDocumentText.html&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;require 'aws-sdk-textract'
+documentName = &quot;simple-document-image.jpg&quot;
+file = File.open(documentName)
+response = client.detect_document_text({
+  document: { # required
+    bytes: file.read,
+    # s3_object: {
+    #   bucket: &quot;ki-textract-demo-docs&quot;,
+    #   name: &quot;simple-document-image.jpg&quot;,
+    #   version: &quot;S3ObjectVersion&quot;,
+    # },
+  },
+})
+
+response.document_metadata.page
+response.blocks
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;To start asynchronic you can use https://docs.aws.amazon.com/textract/latest/dg/API_StartDocumentTextDetection.html
+https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Textract/Client.html#start_document_text_detection-instance_method&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;document_name = 't.pdf'
+bucket = 'duleorlovic-test-us-east-1'
+token = SecureRandom.hex
+sns_topic_arn = 'arn:aws:sns:us-east-1:219232'
+role_arn = 'arn:aws:iam::2192329996'
+client = Aws::Textract::Client.new
+response = client.start_document_text_detection(
+  document_location: { # required
+    s3_object: {
+      bucket: bucket,
+      name: document_name,
+    },
+  },
+  client_request_token: token,
+  notification_channel: {
+    sns_topic_arn: sns_topic_arn,
+    role_arn: role_arn,
+  },
+)
+job_id = response[:job_id]
+
+response = client.get_document_text_detection(job_id: job_id)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Data is returned as &lt;code class=&quot;highlighter-rouge&quot;&gt;Block&lt;/code&gt;, it &lt;code class=&quot;highlighter-rouge&quot;&gt;:block_type&lt;/code&gt; could be &lt;code class=&quot;highlighter-rouge&quot;&gt;PAGE&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;LINE&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;WORD&lt;/code&gt;.
+also &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;KEY_VALUE_SET&quot;, &quot;TABLE&quot;, &quot;CELL&quot;, &quot;SELECTION_ELEMENT&quot;&lt;/code&gt;.
+Page block has &lt;code class=&quot;highlighter-rouge&quot;&gt;[:block_type, :geometry, :id, :relationships]&lt;/code&gt;, Line
+has&lt;code class=&quot;highlighter-rouge&quot;&gt;[:block_type, :confidence, :text, :geometry, :id, :relationships]&lt;/code&gt; and Word
+also the same but without relationships.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;page_block = response.blocks.first
+word_block = response.blocks.last
+
+word_block.to_hash.keys
+# [:block_type, :confidence, :text, :geometry, :id]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;medical&quot;&gt;Medical&lt;/h1&gt;
+
+&lt;p&gt;For Medical https://docs.aws.amazon.com/comprehend/latest/dg/API_medical_DetectEntitiesV2.html or
+https://docs.aws.amazon.com/comprehend/latest/dg/API_medical_DetectPHI.html
+https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ComprehendMedical/Client.html#detect_phi-instance_method&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;text = &amp;lt;&amp;lt;TEXT
+Clinical Summary Report - 11 Jan 2020 – Boston Hospital
+TEXT
+client = Aws::ComprehendMedical::Client.new
+response = client.detect_phi(text: text)
+esponse.entities.map {|p| puts p.inspect }
+#&amp;lt;struct Aws::ComprehendMedical::Types::Entity id=0, begin_offset=26, end_offset=37, score=0.9900140762329102, text=&quot;11 Jan 2020&quot;, category=&quot;PROTECTED_HEALTH_INFORMATION&quot;, type=&quot;DATE&quot;, traits=[], attributes=nil&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Sat, 01 Feb 2020 00:00:00 +0100</pubDate>
+        <link>http://duleorlovic.github.io/2020/02/01/amazon-aws-textract/</link>
+        <guid isPermaLink="true">http://duleorlovic.github.io/2020/02/01/amazon-aws-textract/</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>Trailblazer Dry Rb</title>
+        <description>&lt;h1 id=&quot;trailblazer&quot;&gt;Trailblazer&lt;/h1&gt;
+
+&lt;p&gt;Docs in three places:
+http://trailblazer.to/guides/
+http://2019.trailblazer.to/2.1/docs/trailblazer.html
+http://trailblazer.to/api-docs/&lt;/p&gt;
+
+&lt;p&gt;Concepts (dashboard index, create comment)&lt;/p&gt;
+
+&lt;p&gt;Operation implement functions of the app (also called commands) and it use:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;policy - authorizations: &lt;code class=&quot;highlighter-rouge&quot;&gt;Policy::Guard&lt;/code&gt; macro&lt;/li&gt;
+  &lt;li&gt;representer - cell(widget) instance methods are used in view model (no need
+for view context)&lt;/li&gt;
+  &lt;li&gt;validation - forms or contracts: type check and rules&lt;/li&gt;
+  &lt;li&gt;model - only associations and scopes&lt;/li&gt;
+  &lt;li&gt;callback&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;operation&quot;&gt;Operation&lt;/h2&gt;
+
+&lt;p&gt;http://trailblazer.to/gems/operation/2.0/index.html
+Simple example&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class Song::Create &amp;lt; Trailblazer::Operation
+  step :assign_current_user!
+
+  def assign_current_user!(ctx, model:, current_user:)
+    model.created_by = current_user
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Operation always return result object. It is called using short notation,
+instead &lt;code class=&quot;highlighter-rouge&quot;&gt;Operation.call(a)&lt;/code&gt; you can write ruby alias for it &lt;code class=&quot;highlighter-rouge&quot;&gt;Operation.(a)&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;result = Song::Create.(params.merge current_user: current_user)
+result.success?
+result['model'] # =&amp;gt; #&amp;lt;Song ...&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;It is using &lt;code class=&quot;highlighter-rouge&quot;&gt;step&lt;/code&gt; method which can be instance method, lambda or callable model&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;step :model!
+step -&amp;gt;(ctx, **) { ctx['model'] = Song.new }
+step MyStep
+
+def model!(ctx, **)
+  ctx['model'] = Song.new
+end
+
+# define Callable
+class MyStep
+  extend Uber::Callable
+  def self.call(ctx, **)
+    ctx['model'] = Song.new
+    # return value matters
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If step return value is falsey (nil or false) than operation result is marked as
+failed and only steps marked as &lt;code class=&quot;highlighter-rouge&quot;&gt;failure&lt;/code&gt; after failing step will be executed.
+You can pass fail_fast &lt;code class=&quot;highlighter-rouge&quot;&gt;failure :abort, fail_fast: true&lt;/code&gt; if you do not want to
+execute other failure steps after this this.
+Instead of &lt;code class=&quot;highlighter-rouge&quot;&gt;step&lt;/code&gt; you can use &lt;code class=&quot;highlighter-rouge&quot;&gt;success&lt;/code&gt; which does not care about return value.&lt;/p&gt;
+
+&lt;p&gt;Step accepts two arguments, &lt;code class=&quot;highlighter-rouge&quot;&gt;options&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;ctx&lt;/code&gt; (this should act like accumulator
+since we can write output to it and it is mean to be mutable). In trailblazer
+2.0 first params passed to .call was inside &lt;code class=&quot;highlighter-rouge&quot;&gt;ctx['params']&lt;/code&gt;. In trb 2.1 you need
+to explicitly call using params &lt;code class=&quot;highlighter-rouge&quot;&gt;result = Memo::Create.(params: params,
+current_user: current_user)&lt;/code&gt; (first-value and second-hash params were merged to
+&lt;code class=&quot;highlighter-rouge&quot;&gt;ctx&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;Second argument can extract keys from first, for example, you can write to
+options in each step &lt;code class=&quot;highlighter-rouge&quot;&gt;ctx[:new_result] = SomeClass.new&lt;/code&gt; and you can extract
+in following steps with &lt;code class=&quot;highlighter-rouge&quot;&gt;def step(ctx, new_result:, **)&lt;/code&gt; and so make it
+required.
+If you state them in method definition for very first step, than those
+arguments will be required keys in first hash in trailblazer 2.1 (trailblazer
+2.0 it should be second hash argument). double splat &lt;code class=&quot;highlighter-rouge&quot;&gt;**&lt;/code&gt; means “I know there
+are more keyword arguments but I’m not intereseted right now”.&lt;/p&gt;
+
+&lt;h2 id=&quot;macro&quot;&gt;Macro&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;Model&lt;/strong&gt; http://trailblazer.to/gems/operation/2.0/api.html#model-findby source
+is defined in trailblazer-macro gem (not trailblazer-operations)
+https://github.com/trailblazer/trailblazer-macro/blob/master/lib/trailblazer/macro/model.rb&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;step Model(Song, :new) # this is the same as ctx[:model] = Song.new
+step Model(Song, :find_by) # this is the same as ctx[:model] = Song.find_by params[:id]
+# There will be automatic jump to error track if can not find the model
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Nested&lt;/strong&gt; http://trailblazer.to/gems/operation/2.0/api.html#nested can call
+other operations&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class Update &amp;lt; Trailblazer::Operation
+  step Nested( Edit )
+
+  # you can adapt parameters using input param
+  step Nested( Multiplier, input: -&amp;gt;(options, some_data:, **) do
+    { x: some_data[:pi_constant], y: 2 }
+  end)
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Policy::Guard&lt;/strong&gt; http://trailblazer.to/gems/operation/2.0/policy.html#guard&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;step Policy::Guard( :authorize! )
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;and you can access results in&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;result['policy.default']
+result['result.policy.default'].success?
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Contract::Build&lt;/strong&gt; is defined in trailblazer-macro-contract gem
+https://github.com/trailblazer/trailblazer-macro-contract/blob/master/lib/trailblazer/operation/contract.rb#L15&lt;/p&gt;
+
+&lt;h2 id=&quot;macro-api&quot;&gt;Macro API&lt;/h2&gt;
+&lt;p&gt;http://trailblazer.to/gems/operation/2.0/api.html&lt;/p&gt;
+
+&lt;p&gt;Macro is a capitalized name function which returns two element array: actual
+step, and default options&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;module Macro
+  def self.MyPolicy(allowed_role: &quot;admin&quot;)
+    step = -&amp;gt;(input, options) { options[&quot;current_user&quot;].type == allowed_role }
+
+    [ step, name: &quot;my_policy.#{allowed_role}&quot; ] # :before, :replace, etc. work, too.
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You can use like&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class Create &amp;lt; Trailblazer::Operation
+  step Macro::MyPolicy( allowed_role: &quot;manager&quot; )
+  # ..
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;reform-contract&quot;&gt;Reform Contract&lt;/h2&gt;
+
+&lt;p&gt;Example contract form validation using Reform gem
+http://trailblazer.to/gems/reform/index.html
+http://trailblazer.to/gems/operation/2.0/contract.html&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gem 'dry-validation'
+gem 'reform' # it depends on disposable gem which provide a Twin decorator, and
+           # depends on representable gem which provide representer deserializer
+           # validation is in dry-validation or Activemodel::Validations
+# for rails Activemodel::Validations
+gem 'reform-rails'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Actual validation can be implemented using Reform (with ActiveModel::Validation
+or dry-validation) or using Dry::Schema (without Reform).
+It allows mapping to nested models, via composition, to hash fields.
+It is initialized with model for which you want to validate data against, and
+once read, original model’s values will never be accessed. To save to model you
+can run &lt;code class=&quot;highlighter-rouge&quot;&gt;form.save&lt;/code&gt; which will call &lt;code class=&quot;highlighter-rouge&quot;&gt;sync&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;model.save&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;form = Blog::Contract::Create.new Blog.last
+form.title # this will return Blog.last.title
+form.title = 'new' # this will not change blog title
+form.model.title # this old value
+
+result = form.validate title: 'new title'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Here is example of reform&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# app/concepts/song/contract/create.rb
+# no need to include if using rails
+# require 'reform'
+# require 'reform/form/dry'
+# include Dry
+#
+module Song::Contract
+  class Create &amp;lt; Reform::Form
+    property :title
+
+    # populator is called when validate is triggered, but before deserialisation
+    # and actual validation happens
+    property :artist, populator: -&amp;gt;(ctx) {}
+
+    # for has_many associations use collections
+    # prepopulator must be invoked manually in controller @form.prepopulate!
+    # this nested form
+    property :user, prepopulator: -&amp;gt;(*) { self.user = User.new },
+                    populate_if_empty: -&amp;gt;(*) { User.new } do # this populator
+                    # only runs when there is incoming hash, but no
+                    # corresponding nested form
+      property :email
+    end
+
+    validation do
+      required(:title).filled
+      required(:body).maybe(min_size?: 9)
+    end
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;and can be used in operation with this API (&lt;code class=&quot;highlighter-rouge&quot;&gt;initialize&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;validate&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;save&lt;/code&gt;,
+&lt;code class=&quot;highlighter-rouge&quot;&gt;errors&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;sync&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;prepopulate&lt;/code&gt;)
+but we can use macros: Build, Validate, Persist
+for example in &lt;code class=&quot;highlighter-rouge&quot;&gt;rails c&lt;/code&gt; you can run&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;res = Venue::Operation::Create.(params: {})
+res['contract.default'].errors
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Using Macros will simplify the code:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;step Contract::Build( constant: Venue::Contract::Create )
+# this will populate contract.default (and result.contract.default) with
+# Reform.new ctx[:model]] like this line
+# ctx['contract.default'] = Venue::Contract::Create.new(ctx[:model])
+# https://github.com/trailblazer/trailblazer-macro-contract/blob/master/lib/trailblazer/operation/contract.rb#L15
+
+step Contract::Validate( key: :venue )
+# https://github.com/trailblazer/trailblazer-macro-contract/blob/master/lib/trailblazer/operation/validate.rb
+# this will fetch contract.default and valide against key
+# reform_contract = ctx[&quot;contract.default&quot;]
+# result = reform_contract.validate(ctx[&quot;params&quot;][:venue])
+# error will be available in result['result.contract.default'].errors.messages
+
+step Contract::Persist()
+# this will save contract data. Note that it will not change ctx['model']
+# reform_contract = ctx[&quot;contract.default&quot;]
+# reform_contract.save
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;http://trailblazer.to/gems/reform/populator.html has two ways, &lt;code class=&quot;highlighter-rouge&quot;&gt;prepopulator&lt;/code&gt; is
+for rendering and &lt;code class=&quot;highlighter-rouge&quot;&gt;populator&lt;/code&gt; is on &lt;code class=&quot;highlighter-rouge&quot;&gt;validate&lt;/code&gt;
+Populator function accepts&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;collection&lt;/code&gt; it is indentical to &lt;code class=&quot;highlighter-rouge&quot;&gt;songs&lt;/code&gt; (or other resources you defined)&lt;/li&gt;
+  &lt;li&gt;you can access other properties since context is current form&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;representer&quot;&gt;Representer&lt;/h2&gt;
+
+&lt;p&gt;http://trailblazer.to/gems/operation/2.0/representer.html
+http://trailblazer.to/gems/representable/3.0/api.html&lt;/p&gt;
+
+&lt;p&gt;incoming &lt;strong&gt;document&lt;/strong&gt; is params, and output is represented object (any object
+that expose property setters)
+Example&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Band = Struct.new(:name)
+class SongRepresenter &amp;lt; Representable::Decorator
+  include Representable::Hash
+
+  property :title
+  property :band, class: Band do
+    property :name
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;usage&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Song = Struct.new(:title, :band)
+song = Song.new
+SongRepresenter.new(song).from_hash(title: 'Duke')
+# it will do: song.title = params[:title]
+
+input = { &quot;title&quot; =&amp;gt; &quot;Let Them Eat War&quot;, &quot;band&quot; =&amp;gt; { &quot;name&quot; =&amp;gt; &quot;Bad Religion&quot; } }
+SongRepresenter.new(song).from_hash(input)
+song.band  #=&amp;gt; #&amp;lt;struct Band name=&quot;Bad Religion&quot;&amp;gt;
+song.band.name #=&amp;gt; &quot;Bad Religion&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;or usage in operation in Validate() using &lt;code class=&quot;highlighter-rouge&quot;&gt;:representer&lt;/code&gt; key&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  step Contract::Validate( representer: MyRepresenter )
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Example for rendering (which should be outside of operation)&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;result = Create.(params, document: '')
+if result.success?
+  result['representer.render.class'].new(result[:model]).to_json
+else
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;custom-steps&quot;&gt;Custom steps&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# app/concepts/venue/lib/notification.rb
+class Venue::Notification
+  def self.call(*)
+    true
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Invoke with&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;step :notify!
+
+def notify!
+  ctx['result.notify'] = Venue::Notification.(current_user, model)
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;rails&quot;&gt;Rails&lt;/h2&gt;
+
+&lt;p&gt;/home/orlovic/rails/temp/trb_test
+Gemfile&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# https://github.com/trailblazer/reform/issues/500
+# reform is not ready for dry-validation ver 1 so fix to 0
+gem 'dry-validation', '~&amp;gt; 0.10.6'
+gem 'dry-types', '~&amp;gt; 0.10.2'
+
+gem 'trailblazer', '&amp;gt;= 2.0.3'
+gem &quot;trailblazer-cells&quot;
+gem 'trailblazer-generator', require: false
+gem 'trailblazer-rails' # this will include trailblazer-loader
+
+gem 'cells-rails'
+gem &quot;cells-slim&quot;
+# gem 'cells-hamlit'
+
+gem 'reform-rails'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;http://trailblazer.to/gems/trailblazer/2.0/rails.html&lt;/p&gt;
+
+&lt;p&gt;It will load files from &lt;code class=&quot;highlighter-rouge&quot;&gt;app/concepts&lt;/code&gt; (trailblazer-loader gem). It will load
+files for example &lt;code class=&quot;highlighter-rouge&quot;&gt;app/concepts/product/operation/create.rb&lt;/code&gt; and you can use
+&lt;code class=&quot;highlighter-rouge&quot;&gt;Product::Create&lt;/code&gt; class name (because trailblazer-loader do not use Rails
+autoloader and no need to use &lt;code class=&quot;highlighter-rouge&quot;&gt;Production::Operation::Create&lt;/code&gt;).
+It provides &lt;code class=&quot;highlighter-rouge&quot;&gt;run Blog::Index&lt;/code&gt; method that will invoke the operation, pass params
+https://github.com/trailblazer/trailblazer-rails/blob/68694ccafc58d26dcf1d715c67ac1581cb07a7fa/lib/trailblazer/rails/controller.rb#L41
+and if you want, also dependencies as &lt;code class=&quot;highlighter-rouge&quot;&gt;current_user&lt;/code&gt; using &lt;code class=&quot;highlighter-rouge&quot;&gt;_run_options&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class ApplicationController &amp;lt; ActionController::Base
+  def _run_options(options)
+    options.merge current_user: current_user
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;It sets &lt;code class=&quot;highlighter-rouge&quot;&gt;@model&lt;/code&gt; (also &lt;code class=&quot;highlighter-rouge&quot;&gt;@blog&lt;/code&gt; which is identical to &lt;code class=&quot;highlighter-rouge&quot;&gt;@model&lt;/code&gt;) and &lt;code class=&quot;highlighter-rouge&quot;&gt;@form&lt;/code&gt; if
+exists (if &lt;code class=&quot;highlighter-rouge&quot;&gt;Contract:Build&lt;/code&gt; was called and initialize in
+&lt;code class=&quot;highlighter-rouge&quot;&gt;result['contract.default']&lt;/code&gt;) and &lt;code class=&quot;highlighter-rouge&quot;&gt;result&lt;/code&gt; object (by convention operation
+should populate &lt;code class=&quot;highlighter-rouge&quot;&gt;result['model']&lt;/code&gt; object or array for index operation).&lt;/p&gt;
+
+&lt;p&gt;If operation can go wrong (success and error track) than you can use the block
+syntax &lt;code class=&quot;highlighter-rouge&quot;&gt;run Venue::Update do |result|&lt;/code&gt; which will be called on success and you
+should &lt;code class=&quot;highlighter-rouge&quot;&gt;return redirect_to path&lt;/code&gt; so the code after &lt;code class=&quot;highlighter-rouge&quot;&gt;run&lt;/code&gt; will not be executed
+(fail path).&lt;/p&gt;
+
+&lt;p&gt;Also it extends &lt;code class=&quot;highlighter-rouge&quot;&gt;render&lt;/code&gt; to allow rendering cells&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;render cell(Blog::Cell::Index, @form), layout: false
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;All file and class names should be singular.
+Here is example controller&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# app/controllers/venues_controller.rb
+class VenuesController &amp;lt; ApplicationController
+  def new
+    run Venue::Create::Present
+    render cell(Venue::Cell::New, @form), layout: false
+  end
+
+  def create
+    run Venue::Create do |result|
+      return redirect_to venues_path
+    end
+
+    render cell(Venue::Cell::New, @form), layout: false
+  end
+
+  def show
+    run Venue::Show
+    render cell(Venue::Cell::Show, result[&quot;model&quot;]), layout: false
+  end
+
+  def index
+    run Venue::Index
+    render cell(Venue::Cell::Index, result[&quot;model&quot;]), layout: false
+  end
+
+  def edit
+    run Venue::Update::Present
+    render cell(Venue::Cell::Edit, @form), layout: false
+  end
+
+  def update
+    run Venue::Update do |result|
+      flash[:notice] = &quot;#{result[&quot;model&quot;].title} has been saved&quot;
+      return redirect_to venue_path(result[&quot;model&quot;].id)
+    end
+
+    render cell(Venue::Cell::Edit, @form), layout: false
+  end
+
+  def destroy
+    run Venue::Delete
+
+    flash[:alert] = &quot;Post deleted&quot;
+    redirect_to venues_path
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;test&quot;&gt;Test&lt;/h1&gt;
+
+&lt;p&gt;Use &lt;code class=&quot;highlighter-rouge&quot;&gt;minitest-rails-capybara&lt;/code&gt; gem for testing 
+&lt;code class=&quot;highlighter-rouge&quot;&gt;rails generate minitest:feature CanAccessHome --no-spec&lt;/code&gt; gives&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;require &quot;test_helper&quot;
+
+class CanAccessHomeTest &amp;lt; Capybara::Rails::TestCase
+  def test_homepage_has_content
+    visit root_path
+    assert page.has_content?(&quot;Home#index&quot;)
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;but I do not see why we will use it when we have system test&lt;/p&gt;
+
+&lt;h2 id=&quot;cells&quot;&gt;Cells&lt;/h2&gt;
+
+&lt;p&gt;http://trailblazer.to/gems/cells/
+https://github.com/trailblazer/cells&lt;/p&gt;
+
+&lt;p&gt;This View-model uses helpers that are not globals, but instance methods. It is
+faster than ActionView because there is no code.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# inside controller
+    render cell(Venue::Cell::New, @form), layout: false
+# in console
+html = Venue::Cell::New.(Venue.new, current_user: User.last).()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You can call &lt;code class=&quot;highlighter-rouge&quot;&gt;render&lt;/code&gt; to render
+&lt;code class=&quot;highlighter-rouge&quot;&gt;app/concept/venue/view/new.slim&lt;/code&gt; (template name is generated from class name).
+Use cells-slim https://github.com/trailblazer/cells-slim&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# app/concepts/venue/cell/new.rb
+module Venue::Cell
+  class New &amp;lt; Trailblazer::Cell
+    # to use t('hi')
+    include ActionView::Helpers::TranslationHelper
+    # to use bootstrap_form_for
+    include BootstrapForm::ActionViewExtensions::FormHelper
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Extend cell with other methods.
+Inside template you can access &lt;code class=&quot;highlighter-rouge&quot;&gt;model&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;options&lt;/code&gt; object.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# app/concepts/venue/cell/edit.rb
+module Venue::Cell
+  class Edit &amp;lt; New
+    def show
+      render :new
+    end
+
+    def back
+      link_to &quot;Back&quot;, post_path(model.id)
+    end
+
+    def delete
+      link_to &quot;Delete Post&quot;, post_path(model.id), method: :delete
+    end
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;You can delegate &lt;code class=&quot;highlighter-rouge&quot;&gt;title&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;context[:model].title&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# app/concepts/venue/cell/show.rb
+module Venue::Cell
+  class Show &amp;lt; Trailblazer::Cell
+    property :title
+    property :body
+
+    def current_user
+      return ctx[:context][:current_user]
+    end
+
+    def time
+      model.created_at
+    end
+
+    def edit
+      link_to &quot;Edit&quot;, edit_venue_path(model.id)
+    end
+
+    def delete
+      link_to &quot;Delete&quot;, venue_path(model.id), method: :delete, data: {confirm: 'Are you sure?'}
+    end
+
+    def back
+      link_to &quot;Back to posts list&quot;, venues_path
+    end
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# app/concepts/venue/cell/item.rb
+module Venue::Cell
+  class Item &amp;lt; Trailblazer::Cell
+    def title
+      link_to model.title, model unless model == nil
+    end
+
+    property :body
+
+    def created_at
+      model.created_at.strftime(&quot;%d %B %Y&quot;)
+    end
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# app/concepts/venue/cell/index.rb
+module Venue::Cell
+  class Index &amp;lt; Trailblazer::Cell
+    def total
+      return &quot;No posts&quot; if model.size == 0
+    end
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;When I try to render cell in console it crashes since no context[:controller] is
+given and url_options are needed
+https://github.com/trailblazer/cells-rails/issues/50
+https://github.com/trailblazer/cells/issues/112&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;html = Venue::Cell::New.(Venue.new, current_user: User.last).()
+=&amp;gt; &quot;&amp;lt;div id=\&quot;remote-form\&quot;&amp;gt;&amp;lt;/div&amp;gt;&quot;
+
+# but if I have a root_path than error is raised
+NoMethodError (undefined method `[]' for nil:NilClass)
+
+# if I call with blank context than url_options error is given
+html = Venue::Cell::New.(Venue.new, current_user: User.last, context: {}).()
+NoMethodError (undefined method `url_options' for nil:NilClass)
+
+# so solution is to call using fake controller
+html = Venue::Cell::New.(Venue.new, current_user: User.last, context: {controller: OpenStruct.new(url_options:{})}).()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;To use in test you need to inherit Cell::TestCase and use cell&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# test/cell/venue/new_test.rb
+require 'test_helper'
+class VenueCellNewTest &amp;lt; Cell::TestCase
+  test 'renders' do
+    venue = venues(:novi_sad)
+    html = cell(Venue::Cell::New, venue).()
+    assert_match /#{venue.name}/, html.to_s
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;but I also get error for any line like &lt;code class=&quot;highlighter-rouge&quot;&gt;root_path&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Error:
+VenueCellNewTest#test_renders:
+NoMethodError: undefined method `url_options' for nil:NilClass
+    /home/orlovic/.rvm/rubies/ruby-2.6.3/lib/ruby/2.6.0/forwardable.rb:228:in `url_options'
+    actionpack (6.0.2.1) lib/action_dispatch/routing/route_set.rb:265:in `call'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;so when I step into cell
+https://github.com/trailblazer/cells/blob/master/lib/cell/testing.rb#L8 which
+will call cell_for args so found than it uses context of controller_class
+https://github.com/trailblazer/cells/blob/master/lib/cell/testing.rb#L60
+can also pass fake controller&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;In rails
+https://github.com/trailblazer/cells-rails/blob/master/lib/cell/rails.rb#L12&lt;/p&gt;
+
+&lt;h1 id=&quot;dry&quot;&gt;Dry&lt;/h1&gt;
+
+&lt;p&gt;Disposable Twins API http://trailblazer.to/gems/disposable/api.html
+use dry-types https://dry-rb.org/gems/dry-types/1.2/&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;property :name, type: ::Types::String
+# coercion
+property :id, type: Types::Form::Int, nilify: true
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;dry-validations&quot;&gt;Dry validations&lt;/h2&gt;
+
+&lt;p&gt;Debug in console&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;schema = Dry::Validation::Schema() { required(:name).filled }
+schema.call name: ''
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Example or dry-validations https://dry-rb.org/gems/dry-validation/0.13/optional-keys-and-values/&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;.maybe&lt;/code&gt; is used when it is valid that value could be &lt;code class=&quot;highlighter-rouge&quot;&gt;nil&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;optional(:f).filled&lt;/code&gt; is when it is not required, but when it is present it
+should be filled (not a nil, empty sting, array or hash)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;optional(:n).maybe :int?, included_in?: [1, 3]&lt;/code&gt; it is optional and it could
+be present with &lt;code class=&quot;highlighter-rouge&quot;&gt;nil&lt;/code&gt; value, or 1 or 3 (can not be empty string, maybe is only
+allows to nil, but if you use &lt;code class=&quot;highlighter-rouge&quot;&gt;type: Types::Params::Integer&lt;/code&gt; than coercion
+will make empty string to nil)
+https://dry-rb.org/gems/dry-validation/0.13/basics/macros/#maybe
+https://dry-rb.org/gems/dry-validation/0.13/basics/built-in-predicates/#code-included_in-code&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;what-you-need-to-know-for-using-trailblazer&quot;&gt;What you need to know for using Trailblazer&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;you need to learn DSL which change from version to version. You lose if you do
+not follow up documentation.&lt;/li&gt;
+  &lt;li&gt;errors for trailblazer because of eager loading or something, restart server
+helps
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;uninitialized constant #&amp;lt;Class:0x00007f6b986a5da0&amp;gt;::Index Did you mean? Bindex` .
+NameError (uninitialized constant #&amp;lt;Class:0x000055ab8fc752f0&amp;gt;::Update
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+    &lt;p&gt;This can be solved by writing &lt;code class=&quot;highlighter-rouge&quot;&gt;module [ConceptName}::Operation&lt;/code&gt; and in next
+line &lt;code class=&quot;highlighter-rouge&quot;&gt;class Update &amp;lt; Trailblazer::Operation&lt;/code&gt; so it is properly loaded with
+rails autoloader, you need to disable trailblazer loader&lt;/p&gt;
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# config/initializers/trailblazer.rb
+
+YourApp::Application.config.trailblazer.enable_loader = false
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;can not use form partials, for example if you want to render another partial
+https://github.com/trailblazer/cells/issues/460
+https://stackoverflow.com/questions/47069460/rendering-partial-forms-in-trailblazer-cells&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;graph-modeling&quot;&gt;Graph modeling&lt;/h1&gt;
+&lt;p&gt;http://trailblazer.to/api-docs/#what-is-trailblazer 2.1&lt;/p&gt;
+
+&lt;p&gt;Instead of subclassing we use compositions. Inside &lt;code class=&quot;highlighter-rouge&quot;&gt;module&lt;/code&gt; we call
+&lt;code class=&quot;highlighter-rouge&quot;&gt;module_function&lt;/code&gt; so it is more readable and allows to use &lt;code class=&quot;highlighter-rouge&quot;&gt;method&lt;/code&gt; to attach a
+module method to a step&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;module Memo::Update
+  extend Trailbazer::Activity::Railway()
+
+  module_function
+
+  def find_model(ctx, id:, **)
+    ctx[:model] = Memo.find_by id: id
+  end
+
+  step method(:find_model)
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Invoke like&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ctx = { id: 1, params: { body: 'Awesome' } }
+event, (ctx, *) = Memo::Update.( [ctx, {}] )
+pp ctx #=&amp;gt;
+{ id: 1,
+  params: { body: 'Awesome' },
+  model: #&amp;lt;struct Test::Memo body=nil&amp;gt;,
+  errors: 'body not long enough',
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;activity&quot;&gt;Activity&lt;/h1&gt;
+
+&lt;p&gt;https://2019.trailblazer.to/2.1/docs/activity.html#activity-strategy&lt;/p&gt;
+
+&lt;p&gt;For Path, it is automatically wired &lt;code class=&quot;highlighter-rouge&quot;&gt;:success / Activity::Right&lt;/code&gt; semantic /
+signal. You need to manually wire other outputs&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class Create &amp;lt; Trailblazer::Activity::Path
+  step :validate, Output(Activity::Left, :failure) =&amp;gt; End(:invalid)
+  step :create
+  # ...
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;You can jump to &lt;code class=&quot;highlighter-rouge&quot;&gt;End(:db_error)&lt;/code&gt; or back to track &lt;code class=&quot;highlighter-rouge&quot;&gt;Track(:success)&lt;/code&gt;.
+When you use you get semantic of last&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ctx = {params: nil}
+signal, (ctx, flow_options) = Memo::Create.([ctx, {}])
+
+puts signal #=&amp;gt; #&amp;lt;Trailblazer::Activity::End semantic=:invalid&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;For Railway there are two tracks&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class Create &amp;lt; Trailblazer::Activity::Railway
+  step :validate
+  fail :log_error, Output(:success) =&amp;gt; Track(:success)
+  step :create
+  # ...
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;You can use &lt;code class=&quot;highlighter-rouge&quot;&gt;pass :create&lt;/code&gt; so both success and failure will end in &lt;code class=&quot;highlighter-rouge&quot;&gt;End success&lt;/code&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Thu, 23 Jan 2020 00:00:00 +0100</pubDate>
+        <link>http://duleorlovic.github.io/2020/01/23/trailblazer-dry-rb/</link>
+        <guid isPermaLink="true">http://duleorlovic.github.io/2020/01/23/trailblazer-dry-rb/</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>Dokku Paas</title>
+        <description>&lt;h1 id=&quot;dokku&quot;&gt;Dokku&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/dokku/dokku&quot;&gt;https://github.com/dokku/dokku&lt;/a&gt;
+Heroku-like self hosted platform as a service&lt;/p&gt;
+
+&lt;p&gt;To create app you can&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dokku apps:create myApp
+
+# to find help
+dokku apps:help
+
+# to list all apps
+dokku apps:report
+
+# similar command from docker
+docker stats
+
+# to remove destroy delete all exited docker containers
+docker rm -v $(docker ps -a -q -f status=exited)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Redis&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# Redis
+sudo dokku plugin:install https://github.com/dokku/dokku-redis.git redis
+dokku redis:create redis
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Install swap on server, one time commands to run on server&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# enable swap http://dokku.viewdocs.io/dokku~v0.17.9/getting-started/advanced-installation/#vms-with-less-than-1gb-of-memory
+cd /var
+touch swap.img
+chmod 600 swap.img
+
+dd if=/dev/zero of=/var/swap.img bs=1024k count=1000
+mkswap /var/swap.img
+swapon /var/swap.img
+free
+
+echo &quot;/var/swap.img    none    swap    sw    0    0&quot; &amp;gt;&amp;gt; /etc/fstab
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Config&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# add config environment variable: for buildpack based deployes envs are
+# available during build and run time (Dockerfile based are only on run-time)
+dokku config myApp
+# when setting from local than you do not need to define myApp
+dokku config:set RAILS_MASTER_KEY=`cat config/master.key`
+# it is stored in: dokku run myApp cat  /app/.env and it is updated on next
+# deploy or `ps:rebuild`
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Restart&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dokku ps:restart rails_6
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;From local machine add remote and push the code&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# dokku.me should point to your server, without proxy
+git remote add dokku dokku@dokku.me:myApp
+
+git push dokku master
+# output should be like:
+=====&amp;gt; Application deployed:
+       http://myApp.dokku.trk.in.rs
+
+To dokku.trk.in.rs:myApp
+ * [new branch]      master -&amp;gt; master
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Run commands from local&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssh -t dokku@dokku.trk.in.rs run rails_6 ruby -v
+# or just using client that is downloaded in ~/.dokku
+# git clone git@github.com:dokku/dokku.git ~/.dokku
+# alias dokku='$HOME/.dokku/contrib/dokku_client.sh'
+
+dokku run ruby -v
+dokku run rails console
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Add custom domain. On cloudlfare you can map subdomains of subdomain to dokku
+server, for example &lt;code class=&quot;highlighter-rouge&quot;&gt;*.a.trk.in.rs&lt;/code&gt; so you can use any subdomain of that
+subdomain. Only think is that you need to add to your app&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dokku domains:add myApp rails.a.trk.in.rs
+dokku domains:set myApp rails.a.trk.in.rs # this will remove all other domains
+
+dokku domains:report
+dokku urls rails_6
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You can inspect other nginx configuration by inspecting it and you can customize
+http://dokku.viewdocs.io/dokku/configuration/nginx/&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;less /etc/nginx/conf.d/dokku.conf # here we include all our apps configurations
+cat /home/dokku/rails_6/nginx.conf
+# upstream rails_6-5000 {
+#   server 172.17.0.3:5000;
+# }
+# test your application inside server
+curl 172.17.0.3:5000 -I
+# HTTP/1.1 200 OK
+
+# when accessing from outside and ssl is enabled
+curl -I rails.trk.in.rs
+# HTTP/1.1 301 Moved Permanently
+# Location: https://rails.trk.in.rs:443/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Enabling https with certs letsencrypt need installation of plugin&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo dokku plugin:install https://github.com/dokku/dokku-letsencrypt.git
+# set global config so we do not need to set up for each app
+dokku config:set --global DOKKU_LETSENCRYPT_EMAIL=salji@trk.in.rs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;than you can enable ssl for current app domains with&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dokku letsencrypt myApp
+# add cronjob for dokku user, check with: sudo -u dokku crontab -l
+# @daily /var/lib/dokku/plugins/available/letsencrypt/cron-job
+# it calls auto-renew for all certificates on dokku server
+dokku letsencrypt:cron-job --add
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;To find all commands&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dokku letsencrypt:help
+dokku letsencrypt:ls
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Note that wildcard certificate uses DNS-01 challenge instead of HTTP so it is
+not yet supported by dokku https://github.com/dokku/dokku-letsencrypt/issues/189
+so do not use star subdomains, otherwise you will get&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; File &quot;/usr/lib/python2.7/site-packages/acme/client.py&quot;, line 713, in poll_authorizations
+    raise errors.TimeoutError()
+TimeoutError
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Logs&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dokku logs # when running from local machine
+dokku logs myApp -t
+dokku nginx:access-logs myApp -t
+dokku nginx:error-logs myApp -t
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;posgres&quot;&gt;Posgres&lt;/h2&gt;
+
+&lt;p&gt;Install plugin&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# add postgres plugin
+sudo dokku plugin:install https://github.com/dokku/dokku-postgres
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Create service that usually contains only one database and name is stored in
+&lt;code class=&quot;highlighter-rouge&quot;&gt;cat /var/lib/dokku/services/postgres/railsdatabase/DATABASE_NAME&lt;/code&gt;
+https://github.com/dokku/dokku-postgres/blob/master/config#L4 and is the same as
+service so we need to create separate service for separate app (backup is for
+one database with the same name as service)
+https://github.com/dokku/dokku-postgres/blob/master/common-functions#L26&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# list all postgres services
+dokku postgres:list
+
+# create postgres service with name railsdatabase
+dokku postgres:create railsdatabase
+
+# link with the app ie setting DATABASE_URL
+dokku postgres:link railsdatabase myApp
+
+# access postgres database
+dokku postgres:connect railsdatabase
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Automatic backups to amazon s3 https://github.com/dokku/dokku-postgres/blob/355952eb1f215d791c769fd320acb0e138525658/common-functions#L171&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dokku postgres:backup-auth railsdatabase $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY
+dokku postgres:backup railsdatabase BUCKET_NAME
+
+dokku postgres:backup-schedule railsdatabase $CRON_SCHEDULE $BUCKET_NAME
+# for $CRON_SCHEDULE use https://crontab.guru/ for example `@daily`
+
+# you can manually
+dokku postgres:export railsdatabase &amp;gt; railsdatabase.dump
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;When you download dump you can extract and import in local database&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;tar -zxvf p.tgz
+pg_restore -c -U postgres -d ruby-getting-started_development -v backup/export
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;or you can import this binary pg_dump to dokku&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# no need to reset database, it will be automatically cleared and populated
+dokku postgres:import railsdatabase &amp;lt; railsdatabase.dump
+
+# if you have plain text SQL (not binary) dump you can use connect
+dokku postgres:connect railsdatabase &amp;lt; ./plain.dump
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Mount persistent storage
+http://dokku.viewdocs.io/dokku/advanced-usage/persistent-storage/&lt;/p&gt;
+
+&lt;h1 id=&quot;herokuish&quot;&gt;Herokuish&lt;/h1&gt;
+
+&lt;p&gt;https://github.com/gliderlabs/herokuish
+Heroku will&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;remote: -----&amp;gt; Removing BUNDLED WITH version in the Gemfile.lock
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;dockerfile&quot;&gt;Dockerfile&lt;/h1&gt;
+
+&lt;p&gt;https://pawelurbanek.com/optimize-dokku-deployment-speed
+http://dokku.viewdocs.io/dokku/deployment/methods/dockerfiles/
+If there are &lt;code class=&quot;highlighter-rouge&quot;&gt;Dockerfile&lt;/code&gt; than it will be used except there are &lt;code class=&quot;highlighter-rouge&quot;&gt;BUILDPACK_URL&lt;/code&gt;
+env variable or &lt;code class=&quot;highlighter-rouge&quot;&gt;.buildpacks&lt;/code&gt; file.
+If previously buildpack was used than we need to add flag to switch to docker&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dokku config:unset --no-restart myApp DOKKU_PROXY_PORT_MAP
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Since env variables are using only during runtime phase, you can use
+docker-options plugin http://dokku.viewdocs.io/dokku/advanced-usage/docker-options/&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dokku docker-options:add node-js-app build '--build-arg NODE_ENV=production'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;so if your assets depends on some env variable, you should add it.&lt;/p&gt;
+
+&lt;p&gt;Dokku uses three phases:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;build&lt;/code&gt; the container that executes the appropriate buildpack&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;deploy&lt;/code&gt; the container that executes your deployed application&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;run&lt;/code&gt; the container that executes any arbitrary command via &lt;code class=&quot;highlighter-rouge&quot;&gt;dokku run&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You can add triggers for after deploy actions&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# app.json
+{
+  &quot;name&quot;: &quot;My Rails app&quot;,
+  &quot;scripts&quot;: {
+    &quot;dokku&quot;: {
+      &quot;predeploy&quot;: &quot;bundle exec rake assets:precompile&quot;,
+      &quot;postdeploy&quot;: &quot;bundle exec rake db:migrate&quot;
+    }
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Zero downtime deploys http://dokku.viewdocs.io/dokku/deployment/zero-downtime-deploys/&lt;/p&gt;
+
+&lt;h1 id=&quot;similar&quot;&gt;Similar&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;https://github.com/caprover/caprover&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;https://pawelurbanek.com/rails-heroku-dokku-migration
+https://github.com/githubsaturn/captainduckduck&lt;/p&gt;
+</description>
+        <pubDate>Tue, 21 Jan 2020 00:00:00 +0100</pubDate>
+        <link>http://duleorlovic.github.io/2020/01/21/dokku-paas/</link>
+        <guid isPermaLink="true">http://duleorlovic.github.io/2020/01/21/dokku-paas/</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>Scraping Capybara Mechanize Selenium</title>
+        <description>&lt;p&gt;Some tools useful in creating bot, spider, scraper.&lt;/p&gt;
+
+&lt;h1 id=&quot;capybara&quot;&gt;Capybara&lt;/h1&gt;
+
+&lt;p&gt;Some of the most used capybara methods
+&lt;a href=&quot;https://gist.github.com/duleorlovic/042178b92f1badc09490&quot;&gt;link&lt;/a&gt; or &lt;a href=&quot;https://thoughtbot.com/upcase/test-driven-rails-resources/capybara.pdf&quot;&gt;cheat
+sheet&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Session methods&lt;/strong&gt; &lt;a href=&quot;http://www.rubydoc.info/github/teamcapybara/capybara/master/Capybara/Session#visit-instance_method&quot;&gt;link&lt;/a&gt;
+you can set expectation for &lt;code class=&quot;highlighter-rouge&quot;&gt;current_path&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;current_url&lt;/code&gt;. In feature test
+&lt;code class=&quot;highlighter-rouge&quot;&gt;page&lt;/code&gt; is actually &lt;code class=&quot;highlighter-rouge&quot;&gt;Capybara::Session&lt;/code&gt; class so better is to use &lt;code class=&quot;highlighter-rouge&quot;&gt;session&lt;/code&gt; name.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;visit &quot;/&quot;&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;visit new_project_path&lt;/code&gt;. Remember that if you want to go to
+different domain than &lt;code class=&quot;highlighter-rouge&quot;&gt;Capybara.app_host&lt;/code&gt; than you need to use full url (with
+protocol) so instead &lt;code class=&quot;highlighter-rouge&quot;&gt;visit 'www.google.com&lt;/code&gt; use rather &lt;code class=&quot;highlighter-rouge&quot;&gt;visit
+'http://google.con'&lt;/code&gt;. Any relative url will use &lt;code class=&quot;highlighter-rouge&quot;&gt;Capybara.app_host&lt;/code&gt; just note
+that it also needs protocol &lt;code class=&quot;highlighter-rouge&quot;&gt;Capybara.app_host = 'http://...'&lt;/code&gt; otherwise error
+&lt;code class=&quot;highlighter-rouge&quot;&gt;undefined method  +  for nil:NilClass&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;within &quot;#login-form&quot; do&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;generate capybara POST request using &lt;code class=&quot;highlighter-rouge&quot;&gt;submit&lt;/code&gt; (this does not work for &lt;code class=&quot;highlighter-rouge&quot;&gt;js:
+true&lt;/code&gt;, so please use &lt;code class=&quot;highlighter-rouge&quot;&gt;js: false&lt;/code&gt;)&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  session = Capybara.current_session.driver
+  session.submit :post, customer_sign_up_path, mac: mac
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;scroll to the bottom of the page since since elements needs to be visible when
+&lt;code class=&quot;highlighter-rouge&quot;&gt;js: true&lt;/code&gt; you can use &lt;code class=&quot;highlighter-rouge&quot;&gt;page.execute_script &quot;window.scrollBy(0,10000)&quot;&lt;/code&gt; or make
+anchor and use hash url &lt;code class=&quot;highlighter-rouge&quot;&gt;url/#my-form&lt;/code&gt; since execute script is not available
+when not &lt;code class=&quot;highlighter-rouge&quot;&gt;js: true&lt;/code&gt;. For pagination I prefer to use helper
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;def scroll_down
+  page.execute_script(&amp;lt;&amp;lt;-SCRIPT)
+  var next = $('a.next_page[rel=&quot;next&quot;]');
+  var maxScrolls = 15;
+  var myInterval = setInterval(function(){
+    window.scrollBy(0,10000)
+    next = $('a.next_page[rel=&quot;next&quot;]');
+    maxScrolls -= 1;
+    if (next.length &amp;amp;&amp;amp; maxScrolls &amp;gt; 0) {
+      console.log(maxScrolls);
+    } else {
+      clearInterval(myInterval);
+    }
+  }, 200);
+  SCRIPT
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;back button &lt;code class=&quot;highlighter-rouge&quot;&gt;page.driver.go_back&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Node actions&lt;/strong&gt; are on session object. Argument is target element by their: id
+(without &lt;code class=&quot;highlighter-rouge&quot;&gt;#&lt;/code&gt;), name, label text, alt text, inner text
+&lt;a href=&quot;http://www.rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Actions&quot;&gt;more&lt;/a&gt;
+Note that locator is case sensitive. You can NOT use css or xpath (this is
+only for finders). You can use substring or you can define &lt;code class=&quot;highlighter-rouge&quot;&gt;exact: true&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;click_on &quot;Submit&quot;&lt;/code&gt; (both buttons and links) &lt;code class=&quot;highlighter-rouge&quot;&gt;click_button &quot;Sign in&quot;&lt;/code&gt;,
+&lt;code class=&quot;highlighter-rouge&quot;&gt;click_link &quot;Menu&quot;&lt;/code&gt;. &lt;code class=&quot;highlighter-rouge&quot;&gt;click_on&lt;/code&gt; is alias of &lt;code class=&quot;highlighter-rouge&quot;&gt;click_link_or_button&lt;/code&gt;
+https://rubydoc.info/github/teamcapybara/capybara/master/Capybara/Node/Actions#click_link_or_button-instance_method
+which is similar to &lt;code class=&quot;highlighter-rouge&quot;&gt;click_link&lt;/code&gt; but for union of &lt;code class=&quot;highlighter-rouge&quot;&gt;:link&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;:button&lt;/code&gt;
+selectors.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;fill_in &quot;email&quot;, with: 'asd@asd.asd'&lt;/code&gt; locator is input name, id, test_id,
+placeholder, label text. Note that it is case sensitive.
+alternative is find set &lt;code class=&quot;highlighter-rouge&quot;&gt;find(&quot;input[name='cc']&quot;).set 'asd@asd.asd'&lt;/code&gt;, or using
+javascript &lt;code class=&quot;highlighter-rouge&quot;&gt;page.execute_script &quot;$('#my-id').val('asd@asd.asd')&quot;&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;check 'my checkbox'&lt;/code&gt; (or by id but without # &lt;code class=&quot;highlighter-rouge&quot;&gt;check 'my_check_id'&lt;/code&gt;), &lt;code class=&quot;highlighter-rouge&quot;&gt;choose
+ 'my radio button'&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;select 'My Option or Value', from: 'My Select Box'&lt;/code&gt;, also
+ uncheck &lt;code class=&quot;highlighter-rouge&quot;&gt;uncheck 'my checkbox'&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;unselect&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;page.attach_file 'doc[file]', &quot;#{Rails.root}/test/fixtures/files/computer_text.png&quot;, make_visible: true&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;If you need to fill_in iframe than you can access it by id or number
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;within_frame 0 do
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;If you need to switch window ie jump into new tab opened by target &lt;code class=&quot;highlighter-rouge&quot;&gt;_blank&lt;/code&gt;
+than you can
+~~~
+old_window = page.driver.browser.window_handles.last
+new_window = window_opened_by { click_link ‘Something’ }&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;page.within_window new_window do
+  # code
+end&lt;/p&gt;
+
+&lt;h1 id=&quot;or&quot;&gt;or&lt;/h1&gt;
+&lt;p&gt;page.switch_to_window new_window&lt;/p&gt;
+&lt;h1 id=&quot;pagecurrent_windowclose&quot;&gt;page.current_window.close&lt;/h1&gt;
+&lt;p&gt;page.driver.browser.close # this will close tab, not whole window
+page.switch_to_window old_window&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+* Confirm alert dialog box in
+  * selenium `page.driver.browser.switch_to.alert.accept  # can also be .dismiss`
+  * webkit `page.accept_confirm { click_link &quot;x&quot; } }` so actions is wrapped with
+this `page.accept_confirm`
+* When you find some element you get `Capybara::Node::Element`, but you can
+  create new node without going to selenium, using html text
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;node = Capybara.string «-HTML&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li class=&quot;logo&quot;&gt;&lt;a href=&quot;/&quot; title=&quot;go_to_home&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;
+    &lt;li id=&quot;projects&quot;&gt;Projects&lt;/li&gt;
+    &lt;li data-test=&quot;another&quot;&gt;&lt;a href=&quot;#&quot; title=&quot;Home&quot;&gt;Another link to home&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;p&gt;HTML
+node.class # =&amp;gt; Capybara::Node::Simple
+node.find(‘#projects’).text # =&amp;gt; ‘Projects’&lt;/p&gt;
+&lt;h1 id=&quot;is-actually&quot;&gt;is actually&lt;/h1&gt;
+&lt;p&gt;node.find(:css, ‘#projects’).text # =&amp;gt; ‘Projects’
+node.find(:link_or_button, ‘.logo’) # Capybara::ElementNotFound (Unable to find link or button “.logo”)&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+
+**Node finders**
+[find](http://www.rubydoc.info/github/jnicklas/capybara/Capybara/Node/Finders#find-instance_method)
+use selector with params `:kind` (optional defaults to `:css`), `locator` and
+filters (some elements has more filters for example `input` has `type`).
+https://rubydoc.info/github/teamcapybara/capybara/master/Capybara/Selector
+Note that `find(:link, 'Home')` will match two elements in above example, while
+`find('a', text: 'Home')` will match only one, since first string parameter
+`locator` beside text link, matches id, name, value, title, alt, label.
+`text_id` attribute). So first symbol parameter is type (by default is `:css`,
+and locator is CSS selector). If not `:css` or `:xpath` it matches name, label..
+I prefer to enable aria labels and use that also
+`Capybara.enable_aria_label = true` and `click 'my-aria-label'`
+
+* `find 'th', text: 'Total Customers'`
+* `find('ng-model=&quot;newExpense.amount&quot;').set('123')`
+* `find_all('input').first.set(123)` but I think it is better to use
+  `find('input', match: :first)` since it do not need to find all, similarly you
+  if there are many buttons, you can use `click_on 'Edit', match: :first`
+* `find('[data-test=&quot;id&quot;]', visible: false)` to find invisible element
+* `find('#selector').find(:xpath, '..')` find parent node of selector
+  `.find(:xpath, '../..')` is parent of parent (grandparent).
+* label of child of next adjacent
+  `&amp;lt;h3&amp;gt;Name2&amp;lt;/h3&amp;gt;&amp;lt;div&amp;gt;&amp;lt;label&amp;gt;enabled&amp;lt;/label&amp;gt;&amp;lt;label&amp;gt;disabled&amp;gt;&amp;lt;/div&amp;gt;` is
+  ```
+  find(:xpath, &quot;//h3[contains(text(),'Name2')]/following-sibling::div/label[contains(text(),'enabled')]&quot;)
+  ```
+* to click on select2 I use `find('#original-select-id+span').click` so we find
+  first next sibling of original select which was disabled and replaced by
+  select2 spans. Also works `find('li', text: select.label).click` but I can not
+  find that `li` in dom.
+* Node element [more](http://www.rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Element) `find('input').trigger('focus')` (does not work in selenium)
+
+
+**Node matchers** and rspec matchers [more](http://www.rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Matchers) [rspecmatchers](http://www.rubydoc.info/github/jnicklas/capybara/master/Capybara/RSpecMatchers)
+
+* `expect(page.has_css?('.asd')).to be true`
+* `expect(page).to have_css(&quot;.title&quot;, text: &quot;my title&quot;)`, `have_text /hi|bye/`,
+`have_content`, `have_link`, `have_button`, `have_selector(&quot;#project_#{project.id} .name&quot;,
+text: 'duke')` .
+`have_no_selector` for opposite. It is not same `expect(page).not_to have_text`
+and `expect(page).to have_no_text` since in later case it will wait until it
+tries to fulfill expectation.
+With all you can use `text: '...'` and `count: 2` which is number of occurences.
+Instead of `page.body.include? text` (this will compare html tags) use
+`page.has_text? text` (this will compare only text).
+For testing if something is on the page, for example 3 rows, you can use
+`page.has_selector? '[name=&quot;customer_ids[]&quot;]', count: 3`
+* If element is not visible, you can provide `visible: false` (does not work
+with `have_content &quot;d&quot;, visible: false` but works with `have_css 'div', text:
+'d', visible: false`. Note that this is triggered only if `js: true` (and pass
+if `js: false`) so it is better to allways use visible: false for some elements
+in popups.
+* test sort order is with regex `expect(page).to have_text
+/first.*second.*third/`  create three objects with first in the middle. If you
+have new lines, than you can match multiline `/first.*second.*third/m` or
+replace `page.body.gsub &quot;\n&quot;, ''`
+
+* test if input has value:
+  * `expect(page).to have_xpath(&quot;//input[@value='John']&quot;)`
+  * `expect(page).to have_selector(&quot;input[value='John']&quot;)`
+  * `expect(page).to have_field('Your name', with: 'John')` this does not match
+  disabled input field. of you want to match disabled use `have_field('Your
+  name', disabled: true, with: 'John')`
+
+
+## Debug
+
+Debug capybara
+* `save_and_open_page` to visually inspect the page. It works when `js: false`
+and uses `lunchy` gem. It does not load images with relative path (images on
+your server).
+* &amp;lt;https://github.com/mattheworiordan/capybara-screenshot&amp;gt; screen shots and
+html are saved in `tmp/capybara`. You you use `chrome` or another driver that is
+not `selenium` than register with
+&amp;lt;https://github.com/mattheworiordan/capybara-screenshot/issues/84&amp;gt;
+&amp;lt;https://github.com/mattheworiordan/capybara-screenshot/blob/master/lib/capybara-screenshot.rb#L159&amp;gt;
+
+Also if you use system test you will see screenshot in terminal. to disable you
+can `export RAILS_SYSTEM_TESTING_SCREENSHOT=simple` or set ENV
+https://github.com/rails/rails/blob/5-1-stable/actionpack/lib/action_dispatch/system_testing/test_helpers/screenshot_helper.rb#L58
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h1 id=&quot;specsupportcapybara_screenshotrb&quot;&gt;spec/support/capybara_screenshot.rb&lt;/h1&gt;
+&lt;p&gt;ENV[“RAILS_SYSTEM_TESTING_SCREENSHOT”] = ‘simple’
+Capybara::Screenshot.register_driver(:chrome) do |driver, path|
+  driver.browser.save_screenshot(path)
+end
+Capybara::Screenshot.register_driver(:headless_chrome) do |driver, path|
+  driver.browser.save_screenshot(path)
+end&lt;/p&gt;
+&lt;h1 id=&quot;after-saversave_html&quot;&gt;after Saver#save_html&lt;/h1&gt;
+&lt;p&gt;Capybara::Screenshot.after_save_html do |path|
+  $stderr.write(‘Press ENTER to continue’) &amp;amp;&amp;amp; $stdin.gets
+end&lt;/p&gt;
+&lt;h1 id=&quot;after-saversave_screenshot&quot;&gt;after Saver#save_screenshot&lt;/h1&gt;
+&lt;p&gt;Capybara::Screenshot.after_save_screenshot do |path|
+  Launchy.open path
+end&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+You can create gifs from test in two steps. First capture all pages that you are
+interested with manual screenshot `screenshot_and_save_page`, review them and
+rename last one to `final.png` and than create animated gif
+with a http://www.imagemagick.org/Usage/anim_basics
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;convert -delay 50 -loop 0 tmp/capybara/m/screenshot_2018-*.png -delay 400 tmp/capybara/m/final.png animated.gif&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+## Waiting ajax
+
+&amp;lt;https://github.com/teamcapybara/capybara#asynchronous-javascript-ajax-and-friends&amp;gt;
+capybara is smart enough to wait if some ajax is called and text is not found.
+So it will retry (default_max_wait_time=2) untill failure is not raised. Note
+that `!page.has_xpath?('a')` is not the same as `page.has_xpath?('a')` in
+example where you are removing `a` in ajax. First will fail since it find `a`
+negate (it does not wait when capybara is success). Second will wait until it
+is removed. So use expectations which are going to be met until after ajax.
+
+Wait for ajax to finish is not needed in latest capybara, but here is reference:
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h1 id=&quot;specsupportfeatureswait_helperrb&quot;&gt;spec/support/features/wait_helper.rb&lt;/h1&gt;
+&lt;h1 id=&quot;httpsrobotsthoughtbotcomautomatically-wait-for-ajax-with-capybara&quot;&gt;https://robots.thoughtbot.com/automatically-wait-for-ajax-with-capybara&lt;/h1&gt;
+
+&lt;p&gt;module WaitHelper
+  # You can use this flash and force driver to wait more time, expecially on
+  # destroy action when there is slow deleting data
+  # app/views/users/destroy.js.erb
+  # window.location.assign(‘&amp;lt;%= customer_path @customer %&amp;gt;’);
+  # jQuery.active = 1;
+  #
+  def wait_for_ajax
+    printf “jQuery.active”
+    start_time = Time.current
+    Timeout.timeout(Capybara.default_max_wait_time) do
+      loop until _finished_all_ajax_requests?
+    end
+    printf ‘%.2f’, Time.current - start_time
+  rescue Timeout::Error
+    printf “timeout#{Capybara.default_max_wait_time}”
+  end&lt;/p&gt;
+
+&lt;p&gt;def _finished_all_ajax_requests?
+    output = page.evaluate_script(‘jQuery.active’)
+    printf “.” unless output.zero?
+    output.zero?
+  end&lt;/p&gt;
+
+&lt;p&gt;def wait_for_visible(target)
+    Timeout.timeout(Capybara.default_max_wait_time) do
+      loop until page.find(target).visible?
+    end
+  rescue Timeout::Error
+    flunk “Expected #{target} to be visible.”
+  end
+end
+RSpec.configure do |config|
+  config.include WaitHelper, type: :feature
+end&lt;/p&gt;
+&lt;h1 id=&quot;for-minitest-use&quot;&gt;for minitest use&lt;/h1&gt;
+&lt;p&gt;class ActionDispatch::SystemTestCase
+  include WaitHelper
+end&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+This is not needed any more, also
+[wait_until](https://www.varvet.com/blog/why-wait_until-was-removed-from-capybara/)
+is removed from capybara.
+
+I see only two problem: first is ajax loaded form in modal and you click on
+button to submit it immediatelly, but modal uses `fade` and is not visible yet.
+Solution is to remove `fade` class.
+&amp;lt;https://github.com/teamcapybara/capybara/issues/1890&amp;gt;
+
+Second is when respone is redirection `window.location.assign('/users/1')`
+(usually just to reload a page). Capybara does not wait for this
+`window.location` change when it is run in `headless_chrome` driver. I tried
+with `window.location.replace` and `$(location).attr('href',)`. Only solution is
+to use expectation that find element which is not yet on a page. Maybe `visit
+customer_path customer` again, before expectation, could help.
+
+I noticed that when using `js: true` session is preserved between examples even
+from multiple files. This is on both chrome and headless_chrome. Since there is
+randomization, that could be a tricky problem to reproduce. I tried to add
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;config.before(:example) do
+    Capybara.reset_sessions!
+  end
+  before do
+    Capybara.reset_session!
+    browser = Capybara.current_session.driver.browser
+    if browser.respond_to?(:clear_cookies)
+      # Rack::MockSession
+      browser.clear_cookies
+    elsif browser.respond_to?(:manage) and browser.manage.respond_to?(:delete_all_cookies)
+      # Selenium::WebDriver
+      browser.manage.delete_all_cookies
+    else
+      raise “Don’t know how to clear cookies. Weird driver?”
+    end
+  end&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+but still problem, sometimes fails/sometimes pass.
+
+## Download helpers
+
+Inspect file that is downloaded like `respond_to do |format| format.csv { render
+text: CSV.generate { |csv| csv &amp;lt;&amp;lt; [1,2] } } end`
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h1 id=&quot;specsupportdownload_feature_helpersrb&quot;&gt;spec/support/download_feature_helpers.rb&lt;/h1&gt;
+&lt;h1 id=&quot;httpscollectiveideacomblogarchives20120127testing-file-downloads-with-capybara-and-chromedriver&quot;&gt;https://collectiveidea.com/blog/archives/2012/01/27/testing-file-downloads-with-capybara-and-chromedriver&lt;/h1&gt;
+&lt;p&gt;#&lt;/p&gt;
+&lt;h1 id=&quot;csv_content--downloadhelpersdownload_content&quot;&gt;csv_content = DownloadHelpers.download_content&lt;/h1&gt;
+&lt;h1 id=&quot;expectcsv_contentcountnto-eq-3&quot;&gt;expect(csv_content.count(“\n”)).to eq 3&lt;/h1&gt;
+&lt;h1 id=&quot;expectcsv_contentto-include-first_customername&quot;&gt;expect(csv_content).to include first_customer.name&lt;/h1&gt;
+&lt;p&gt;#
+module DownloadFeatureHelpers
+  TIMEOUT = 10
+  PATH    = Rails.root.join(“tmp/downloads”)&lt;/p&gt;
+
+&lt;p&gt;extend self&lt;/p&gt;
+
+&lt;p&gt;def downloads
+    Dir[PATH.join(“*”)]
+  end&lt;/p&gt;
+
+&lt;p&gt;def download
+    downloads.first
+  end&lt;/p&gt;
+
+&lt;p&gt;def download_content
+    wait_for_download
+    File.read(download)
+  end&lt;/p&gt;
+
+&lt;p&gt;def wait_for_download
+    Timeout.timeout(TIMEOUT) do
+      sleep 0.1 until downloaded?
+    end
+  end&lt;/p&gt;
+
+&lt;p&gt;def downloaded?
+    !downloading? &amp;amp;&amp;amp; downloads.any?
+  end&lt;/p&gt;
+
+&lt;p&gt;def downloading?
+    downloads.grep(/.crdownload$/).any?
+  end&lt;/p&gt;
+
+&lt;p&gt;def clear_downloads
+    FileUtils.rm_f(downloads)
+  end
+end&lt;/p&gt;
+
+&lt;p&gt;RSpec.configure do |config|
+  config.include DownloadFeatureHelpers, type: :feature
+end&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+Set headless browser https://gist.github.com/bbonamin/4b01be9ed5dd1bdaf909462ff4fdca95
+
+Old way is using profile
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;require “selenium/webdriver”
+Capybara.register_driver :chrome do |app|
+  profile = Selenium::WebDriver::Chrome::Profile.new
+  profile[“download.default_directory”] = DownloadFeatureHelpers::PATH.to_s
+  Capybara::Selenium::Driver.new(app, browser: :chrome, profile: profile)
+end&lt;/p&gt;
+
+&lt;h1 id=&quot;another-way-to-set-profile-is-with-prefs-in-desired_capabilities&quot;&gt;another way to set profile is with prefs in desired_capabilities&lt;/h1&gt;
+&lt;h1 id=&quot;currently-it-does-not-work-if-you-use-headless-chrome-since-it-is-not&quot;&gt;Currently it does not work if you use headless chrome since it is not&lt;/h1&gt;
+&lt;h1 id=&quot;supported-httpsgithubcomseleniumhqseleniumissues4437&quot;&gt;supported &lt;a href=&quot;https://github.com/SeleniumHQ/selenium/issues/4437&quot;&gt;https://github.com/SeleniumHQ/selenium/issues/4437&lt;/a&gt;&lt;/h1&gt;
+&lt;h1 id=&quot;probably-works-in-headless-firefox&quot;&gt;Probably works in headless firefox.&lt;/h1&gt;
+
+&lt;p&gt;Capybara.register_driver :headless_chrome do |app|
+  desired_capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+    chromeOptions: { args: %w(headless disable-gpu window-size=1024,768) },
+    prefs: {
+      “download.default_directory”: DownloadFeatureHelpers::PATH.to_s,
+    }
+  )&lt;/p&gt;
+
+&lt;p&gt;Capybara::Selenium::Driver.new(
+    app,
+    browser: :chrome,
+    desired_capabilities: desired_capabilities,
+  )
+end&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+Usage in test is to clear downloads first since failing expectation will break
+and not remove files.
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;RSpec.describe ‘Location Reports’, js: true do
+  it ‘downloads’ do
+    DownloadFeatureHelpers.clear_downloads
+    click_on ‘Generate Report’
+    csv_content = DownloadFeatureHelpers.download_content
+    expect(csv_content.count(“\n”)).to eq 3
+    expect(csv_content).to include first_customer.name
+  end
+end&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+# Selenium
+
+&amp;lt;https://github.com/SeleniumHQ/selenium/wiki/Ruby-Bindings&amp;gt;
+Selenium for ruby use gem `selenium-webdriver`.
+You also need executables for firefox `geckodriver` (just download from
+&amp;lt;https://github.com/mozilla/geckodriver/releases&amp;gt; to `/usr/local/bin`)
+and for chrome `chromedriver` (download from
+&amp;lt;https://sites.google.com/a/chromium.org/chromedriver/downloads&amp;gt; to
+`/usr/local/bin`) or you can use `gem 'chromedriver-helper'` that will install
+chromedriver to `.rvm/gems/ruby-2.3.3/bin/chromedriver`.
+
+Make sure you have version of firefox and chrome that matches drivers.
+
+Same DSL to drive browser (selenium-webdriver, chrome-driver or capybara-webkit)
+or headless drivers (`:rack_test` or phantomjs). `Capybara.current_driver` could
+be `:rack_test` (when no `js: true`) or `:headless_chrome` or `':chrome`.
+
+## Errors
+
+If you see error `unable to obtain stable firefox connection in 60 seconds
+(127.0.0.1:7055) (Selenium::WebDriver::Error::WebDriverError)` you need to `gem
+update selenium-webdriver` or to install matched version.
+
+Minitest is included in ruby and also in rails. If your system tests shows error
+`Selenium::WebDriver::Error::WebDriverError: unable to connect to chromedriver
+127.0.0.1:9515` than add gem `gem 'chromedriver-helper'` to your development and
+test group.
+
+If you see `KeyError: key not found: 102` than upgrade chromedriver to 2.33 by
+downloading from &amp;lt;https://sites.google.com/a/chromium.org/chromedriver/&amp;gt; and `mv
+chromedriver bin` or if you are using `chromedriver-helper` run
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;rm -rf ~/.chromedriver-helper/
+chromedriver-update&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+For `Selenium::WebDriver::Error::UnknownError: unknown error: call function
+result missing 'value' (Session info: headless chrome=67.0.3396.48)` you need to
+update chromedriver to 2.38
+
+If you see error `SocketError: getaddrinfo: Name or service not known` than make
+sure you have defined localhost `127.0.0.1 localhost` in `/etc/hosts`
+
+If you see error `Selenium::WebDriver::Error::StaleElementReferenceError: stale
+element reference: element is not attached to the page document` it could be
+that element was removed, page reloaded in javascript, or when you use `within
+#id` and than make expectation inside `within` block. Try to move expectation
+outsite of `within` block or to reload
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;page.driver.browser.navigate.refresh
+page.evaluate_script ‘window.location.reload()’&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+Chrome driver usually starts with `data:,` url and than redirects to for example
+&amp;lt;http://127.0.0.1:34623/posts&amp;gt;
+
+In rails console you should see starting browser with
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;options = Selenium::WebDriver::Chrome::Options.new
+options.add_argument(‘–headless’)
+driver = Selenium::WebDriver.for :chrome #, options: options&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+To run in browser javascript use `js: true`. Note that in this mode, drop down
+links are not visible, you need to click on dropdown. Also `data-confirm` will
+be ignored.
+Note that in this mode you can't use `rails-rspec` default
+`config.use_transactional_fixtures` since selenium can't know that refresh or
+navigation to another page should be in the same transaction, so you need to use
+`database_cleaner` as we do configuration below.
+&amp;lt;http://elementalselenium.com/tips/29-chrome-driver&amp;gt;
+&amp;lt;https://robots.thoughtbot.com/headless-feature-specs-with-chrome&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h1 id=&quot;specsupportcapybararb&quot;&gt;spec/support/capybara.rb&lt;/h1&gt;
+&lt;p&gt;require “selenium/webdriver”&lt;/p&gt;
+
+&lt;p&gt;Capybara.register_driver :chrome do |app|
+  # set download directory using Profile (can be set using :prefs in options)
+  profile = Selenium::WebDriver::Chrome::Profile.new
+  profile[“download.default_directory”] = DownloadFeatureHelpers::PATH.to_s
+  Capybara::Selenium::Driver.new(app, browser: :chrome, profile: profile)
+end&lt;/p&gt;
+
+&lt;p&gt;Capybara.register_driver :headless_chrome do |app|&lt;/p&gt;
+&lt;h1 id=&quot;i-prefer-to-use-options-instead-capabilities&quot;&gt;I prefer to use Options instead Capabilities&lt;/h1&gt;
+&lt;h1 id=&quot;capabilities--seleniumwebdriverremotecapabilitieschrome&quot;&gt;capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(&lt;/h1&gt;
+&lt;h1 id=&quot;chromeoptions--args-wheadless-disable-gpu-window-size1024768-&quot;&gt;chromeOptions: { args: %w(headless disable-gpu window-size=1024,768) }&lt;/h1&gt;
+&lt;h1&gt;)&lt;/h1&gt;
+&lt;h1 id=&quot;capybaraseleniumdrivernew-app-browser-chrome-desired_capabilities-capabilities&quot;&gt;Capybara::Selenium::Driver.new app, browser: :chrome, desired_capabilities: capabilities&lt;/h1&gt;
+&lt;p&gt;options = Selenium::WebDriver::Chrome::Options.new(
+    args: %w[headless disable-gpu window-size=1024,768],
+    # can not use prefs for headless driver since it is not supported
+    # prefs: {
+    #   “download.default_directory”: DownloadFeatureHelpers::PATH.to_s,
+    # }
+  )&lt;/p&gt;
+
+&lt;p&gt;Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+end&lt;/p&gt;
+
+&lt;p&gt;RSpec.configure do |config|
+  files = config.instance_variable_get :@files_or_directories_to_run
+  if files == [“spec”]
+    # when run all spec use headless
+    Capybara.javascript_driver = :headless_chrome
+  else
+   Capybara.javascript_driver = :chrome
+  end
+end
+Capybara.enable_aria_label = true&lt;/p&gt;
+
+&lt;h1 id=&quot;if-you-need-to-use-custom-domain--you-can-set-host-but-also-set-server-port&quot;&gt;if you need to use custom domain , you can set host, but also set server port&lt;/h1&gt;
+&lt;p&gt;Capybara.app_host = “http://my-domain.loc:3333”
+Capybara.server_port = 3333&lt;/p&gt;
+&lt;h1 id=&quot;you-can-read-host-and-port&quot;&gt;you can read host and port&lt;/h1&gt;
+&lt;p&gt;Capybara.current_session.server.host
+Capybara.current_session.server.port&lt;/p&gt;
+&lt;h1 id=&quot;normally-chrome-starts-with-url-data-and-than-redirects-to-app_host&quot;&gt;normally chrome starts with url: data; and than redirects to app_host&lt;/h1&gt;
+&lt;h1 id=&quot;app_host-should-ends-with-loc-or-lvhme-so-it-point-to-localhost&quot;&gt;app_host should ends with .loc or .lvh.me so it point to localhost&lt;/h1&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+For newer Firefox I needed to download
+[geckodriver](https://github.com/mozilla/geckodriver/releases) and put it
+somewhere like `/user/local/bin/geckodriver`. Also [Firefox
+47.0.1](https://ftp.mozilla.org/pub/firefox/releases/47.0.1/) is suggested, but
+my ver 50 also works.
+
+# Remote Selenium
+
+You can control remote selenium server. Download
+[selenium-server-standalone.jar](https://www.seleniumhq.org/download/) and run
+selenium server.  For error `Unsupported major.minor
+version 52.0` you need to update java: 51 -&amp;gt; java7, 52 -&amp;gt; java8, 53 -&amp;gt; java9.
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;java -jar selenium-server-standalone.jar&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+To test in `rails c` try
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h1 id=&quot;chrome&quot;&gt;chrome&lt;/h1&gt;
+&lt;p&gt;driver = Selenium::WebDriver.for :remote, desired_capabilities: :chrome, url: “http://192.168.5.56:4444/wd/hub”&lt;/p&gt;
+&lt;h1 id=&quot;same-as&quot;&gt;same as&lt;/h1&gt;
+&lt;h1 id=&quot;driver--seleniumwebdriverfor-chrome-url-http1921685564444wdhub&quot;&gt;driver = Selenium::WebDriver.for :chrome, url: “http://192.168.5.56:4444/wd/hub”&lt;/h1&gt;
+&lt;p&gt;driver.navigate.to ‘http://google.com’ #=&amp;gt; nil&lt;/p&gt;
+
+&lt;h1 id=&quot;firefox&quot;&gt;firefox&lt;/h1&gt;
+&lt;h1 id=&quot;driver--seleniumwebdriverfor-firefox-url-http1921685564444wdhub&quot;&gt;driver = Selenium::WebDriver.for :firefox, url: “http://192.168.5.56:4444/wd/hub”&lt;/h1&gt;
+
+&lt;h1 id=&quot;headless-chrome&quot;&gt;headless chrome&lt;/h1&gt;
+&lt;p&gt;options = Selenium::WebDriver::Chrome::Options.new(
+  args: %w[headless disable-gpu window-size=1024,768],
+)
+driver = Selenium::WebDriver.for :chrome, url: “http://192.168.5.56:4444/wd/hub”, options: options&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+If there is a screen you can run both headless and not. If you run server from
+ssh (there is no screen) than you can run headless or you can run server using X
+virtual frame buffer
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;xvfb-run java -Dwebdriver.chrome.driver=/usr/local/bin/chromedriver -jar /usr/local/bin/selenium-server-standalone.jar&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+# Kimurai
+
+https://github.com/vifreefly/kimuraframework
+
+```
+require 'kimurai'
+
+class SimpleSpider &amp;lt; Kimurai::Base
+  @name = &quot;simple_spider&quot;
+  @engine = :selenium_chrome
+  @start_urls = [&quot;https://example.com/&quot;]
+
+  def parse(response, url:, data: {})
+  end
+end
+
+SimpleSpider.crawl!
+```
+
+Use console
+
+```
+kimurai console --url https://www.tripadvisor.rs/Hotel_Review-g295380-d1383552-Reviews-Prezident_Hotel-Novi_Sad_Vojvodina.html
+response.css('script[type=&quot;application/ld+json&quot;]').first
+# in plains ruby
+url = 'https://www.tripadvisor.rs/Hotel_Review-g295380-d1383552-Reviews-Prezident_Hotel-Novi_Sad_Vojvodina.html'
+response = Nokogiri::HTML(open(url))
+
+# use non headless, actually fire up a browser
+HEADLESS=false kimurai console --engine selenium_chrome --url http://google.com
+```
+
+To install chromedriver you can use `gem install webdrivers` and symlink
+```
+sudo ln -s /home/orlovic/.webdrivers/chromedriver /usr/local/bin/
+
+# or on production with rvm, check that is it in Gemfile (not in TEST)
+# /home/deploy/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/webdrivers-4.1.3/lib/webdrivers/chromedriver.rb is just ruby file
+bundle exec rake webdrivers:chromedriver:update
+sudo ln -s /home/deploy/.webdrivers/chromedriver /usr/local/bin/
+```
+
+Use data to pass data between pages
+
+```
+def parse(response, url:, data: {})
+  response.xpath().each do |product_url|
+    request_to :parse_product, url: product_url[:href], data:
+    data.merge(product_name: product_url[:title])
+  end
+end
+
+def parse_product(response, url:, data: {})
+  puts data[:product_name]
+end
+```
+
+Save screenshot using `browser.save_screenshot`
+Save cookies using `browser.driver.save_cookies`
+Refresh page `browser.refresh` but to update `response` you need to `response =
+browser.current_response`
+
+# CSV, input &amp;amp; output
+
+Your script probably needs some output, CSV is good enough (it will wrap inside
+quotes if comma `,` is detected)
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;require ‘csv’
+CSV.open(“candidates.csv”,”w”) do |csv|
+  csv « [id, name]
+end&lt;/p&gt;
+
+&lt;h1 id=&quot;or-without-indent&quot;&gt;or without indent&lt;/h1&gt;
+
+&lt;p&gt;output = CSV.open(‘data/craiglist.csv’, ‘wb’) # folder data must exists
+output « [id, name]
+output.close&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+For strings, you can use [mustache](https://github.com/mustache/mustache)
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;require ‘mustache’
+MESSAGE_TEXT = “Hi there,&lt;/p&gt;
+
+&lt;p&gt;I noticed your great page. Please see my profile here&lt;/p&gt;
+
+&lt;p&gt;Thanks!”
+element.send_keys Mustache.render( MESSAGE_TEXT, profile_url: profile_url)&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+Params can be passed as arguments (first param is ARGV[0]) or hard coded
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;OUTPUT_FILE = ARGV[0] || ‘output.csv’
+TEST_MODE = true
+SIMULATE_REAL_USER_DELAY = true&lt;/p&gt;
+
+&lt;p&gt;sleep rand(8..15) if SIMULATE_REAL_USER_DELAY&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+# Debug
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h1 id=&quot;run-with-ruby-myscriptrb&quot;&gt;run with: ruby myscript.rb&lt;/h1&gt;
+&lt;h1 id=&quot;debug-with-byebug&quot;&gt;debug with byebug&lt;/h1&gt;
+&lt;h1 id=&quot;or-in-irb&quot;&gt;or in irb:&lt;/h1&gt;
+&lt;h1 id=&quot;driverwaitidnil--selenium&quot;&gt;driver=wait=id=nil # selenium&lt;/h1&gt;
+&lt;h1 id=&quot;agentpagenil--mechanize&quot;&gt;agent=page=nil # mechanize&lt;/h1&gt;
+&lt;h1 id=&quot;eval-fileopenmyscriptrbread&quot;&gt;eval File.open(‘myscript.rb’).read&lt;/h1&gt;
+&lt;h1 id=&quot;put-rubocop-ready-break-somewhere-in-your-loops&quot;&gt;put rubocop ready break somewhere in your loops:&lt;/h1&gt;
+&lt;h1 id=&quot;loop-do&quot;&gt;loop do&lt;/h1&gt;
+&lt;h1 id=&quot;break-if-false--true--rubocop-ready&quot;&gt;break if false != true # rubocop ready&lt;/h1&gt;
+&lt;h1 id=&quot;end&quot;&gt;end&lt;/h1&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+# Mechanize
+
+If you have simple site without ajax than you can use
+[Mechanize](http://docs.seattlerb.org/mechanize/GUIDE_rdoc.html). It uses
+nokogiri and `automatically stores and sends cookies, follows redirects, and can
+follow links and submit forms`. It provides
+[forms_with](http://docs.seattlerb.org/mechanize/Mechanize/Page.html#method-i-forms_with)
+so you can find forms (or links), fill input and submit.
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;require ‘rubygems’
+require ‘mechanize’&lt;/p&gt;
+
+&lt;p&gt;agent = Mechanize.new
+page = agent.get(‘trk-inovacije.com’)
+page.link_with text: ‘Next’ # exact match
+page.search(‘#updates div a:first-child’) # css match&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+For using plain selenium (not capybara) you need to implement waiting for ajax
+results. I used three steps
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;element = nil
+wait.until { element = driver.find_element(:name, ‘UserName’) }
+element.send_keys “asdasd”&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+In this way, it is waiting for element to appear. In case it is not showing
+exception `TimeOutError` so if you expect that, you need to wrap inside `begin
+rescue end` block. Last line in `until` block (ie return value) is important,
+since if it is false `TimeOutError` is raised.
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;require “selenium-webdriver”&lt;/p&gt;
+&lt;h1 id=&quot;httpseleniumgooglecodecomgitdocsapirbseleniumwebdriverhtml&quot;&gt;http://selenium.googlecode.com/git/docs/api/rb/Selenium/WebDriver.html&lt;/h1&gt;
+&lt;h1 id=&quot;httpdocsseleniumhqorgdocsindexjsp&quot;&gt;http://docs.seleniumhq.org/docs/index.jsp&lt;/h1&gt;
+
+&lt;p&gt;USER_EMAIL = “asd@asd.asd”
+USER_PASSWORD = “asdasd”
+TEST_MODE = false
+SIMULATE_REAL_USER_DELAY = true&lt;/p&gt;
+
+&lt;p&gt;if driver.nil? # driver is defined if we use irb and eval File.open(‘f’).read
+  driver = Selenium::WebDriver.for :firefox
+  # driver.manage.timeouts.implicit_wait = 10
+  # do not use implicit wait since it can hang out
+  wait = Selenium::WebDriver::Wait.new(timeout: 30) # seconds&lt;/p&gt;
+
+&lt;p&gt;driver.navigate.to “https://trk.in.rs”&lt;/p&gt;
+
+&lt;p&gt;puts “Signing in…”
+  element = nil
+  wait.until { element = driver.find_element(:name, ‘UserName’) }
+  element.send_keys USER_EMAIL&lt;/p&gt;
+
+&lt;p&gt;element = driver.find_element(:name, ‘Password’)
+  element.send_keys USER_PASSWORD&lt;/p&gt;
+
+&lt;p&gt;# puts “Please fill in reCAPTCHA… and click on login”
+  # gets
+  element.submit
+end&lt;/p&gt;
+
+&lt;p&gt;puts “Finding profile_search…”
+begin
+  wait.until { element = driver.find_element(:xpath, ‘//&lt;em&gt;[text()[contains(.,”Profile”)]]’) }
+rescue Selenium::WebDriver::Error::TimeOutError
+  puts “Missing Profile link…”
+  retry or break or next
+end
+unless TEST_MODE
+  element.click
+end
+sleep rand(8..15) if SIMULATE_REAL_USER_DELAY
+begin
+  phone_element = driver.find_element :xpath, ‘//li[contains(text(),”☎”)]’
+  phone = phone_element.text[1..-1].strip
+  puts phone
+rescue Selenium::WebDriver::Error::NoSuchElementError
+  # this error is raised when find_element is called outside of wait.until
+  phone = nil
+end
+wait.until do
+  begin
+    driver.find_element(:xpath, “//&lt;/em&gt;[@data-cid]”).attribute(‘data-cid’) != id
+  rescue Selenium::WebDriver::Error::StaleElementReferenceError
+    puts “old elemenet is no longer attached to the DOM”
+    false
+  end
+end
+begin
+  driver.navigate.to link[:href]
+rescue Net::ReadTimeout
+  puts “timeout for #{link[:href]}”
+  next
+rescue Selenium::WebDriver::Error::UnhandledAlertError
+  puts “UnhandledAlertError probably some model dialog on page”
+  next
+end
+begin
+  element.click
+rescue Selenium::WebDriver::Error::ElementNotVisibleError
+  puts “apply button hidden”
+  next
+end
+driver.switch_to.frame driver.find_elements( :tag_name, ‘iframe’).last&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+# XPath
+
+Xpath is nice since it can traverse back up the dom tree with `..` and that can
+select element based on existence of a child `//p[a]` (all `p` with `a` child)
+
+https://www.w3schools.com/xml/xpath_intro.asp
+7 type of nodes: element, attribute, text, namespace, processing-instructions,
+comment and document node. *Atomic values* are nodes with no children or parent.
+Items are Atomic values or nodes.
+Each element and attribute has one parent. Element nodes may have zero, one or
+more children. Sibling nodes are nodes with same parent. Ancestors are node's
+parent and parent's parent etc... Descendant are node's children, children's
+children etc...
+Selecting node by:
+* `nodename` selects all nodes with the name nodename
+* `/` selects from the root (if path starts with `/` than it is absolute path).
+  `bookstore/book` selects all book elements that are children of bookstore
+* `//` select nodes from the current node that match the selection no matter
+  where they are. `bookstore//book` selects all book elements that are
+  descentant from bookstore
+* `.` selects the current node
+* `..` selects parent of the current node
+* `@` selects attributes `//@lang` selects all attributes that are named lang
+
+Predicates are used to find specific node `[1]` or that contains specific value.
+Predicates are always in square brackets
+* `/bookstore/book[1]` first book that is child of bookstore
+* `/bookstore/book[last()]` last book that is child of bookstore
+* `/bookstore/book[position()&amp;lt;3]` first two book elements that are child of
+  bookstore
+* `//title[@lang]` selects all title elements that have attribute named lang
+* `//title[@lang='en']` selects all title elements that have attribute lang with
+  value en
+* `/bookstore/book[price&amp;gt;35]/title` selects title elements of book element
+  which have price element with value (inner text) greater than 35
+
+If we use `/bookstore/book/price[text()]` than it will select all text from
+price nodes.
+
+
+Wildcards can be used to select unknown nodes
+* `*` matches any element node `/bookstore/*` select all child elements of
+  bookstore
+* `@*` matches any attribute node. `//title[@*]` select title elements which
+  have at least one attribute
+* `node()` matches any kind of node
+
+Several path can be selected using pipe `|` (or operator) `//title | //price`
+select all title and price elements. You can use also `=` equal, `+` addition,
+`div` division operators...
+
+Axes can be used to traverse (in addition to simply child `/`)
+* `child::book`, `descentant::`, `descentant-or-self::`
+* `ancestor::`, `ancestor-or-self::`, `parent::`
+* `attribute::`
+* `namespace::`
+* `following::`, `following-sibling::` after current node. To select text after
+  certain element you can `//foo/following-sibling::text()[1]`
+* `preceding::`, `preceding-sibling::` before current node except ancestors,
+  attribute and namespace nodes. for example select li before li with text my
+  `//li[text()='my']/preceding-sibling::li`
+* `self::` current node
+
+You can check in [developer
+tools](http://stackoverflow.com/questions/22571267/how-to-verify-an-xpath-expression-in-chrome-developers-tool-or-firefoxs-firebug)
+with `$x('//*[po-my-button]')` in console, or with *CTRL+f* search in elements
+panel.
+In ruby you can parse some text with nokogiri
+http://cheat.errtheblog.com/s/nokogiri
+Nokogiri cheat sheet https://github.com/sparklemotion/nokogiri/wiki/Cheat-sheet
+
+```
+doc = Nokogiri::HTML(html_page)
+node = doc.at('some_xpath')
+node = doc.at_css('h1')
+node
+```
+
+* &amp;lt;http://www.w3.org/TR/xpath](http://www.w3.org/TR/xpath)&amp;gt;
+* [usefull selectors](http://ejohn.org/blog/xpath-css-selectors)
+
+* find by id  `//*[@id='my_id']` (note that it needs quotes inside
+  squarebrackets)
+* by class `//*a[contains(@class,'my_class')]`
+* text `//*[contains(text(),'ABC')]` or `//*[text()='exact_match']`
+* parrent `../`
+* some child of this `.//`
+* to get text without child nodes, call `text()` in xpath 
+  `page.search('//h1/text()').text`
+* get [input by
+  label](http://stackoverflow.com/questions/34712495/protractor-select-a-form-element-using-label)
+  `var input = element(by.xpath(&quot;//label[. = '&quot; + labelName + &quot;']/following-sibling::input&quot;));`
+* find all text with @, check if they look like an email and join them [link](http://stackoverflow.com/questions/3655549/xpath-containstext-some-string-doesnt-work-when-used-with-node-with-more)
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h1 id=&quot;selenium-example&quot;&gt;selenium example&lt;/h1&gt;
+&lt;p&gt;email_text = driver.find_element(:xpath, ‘//&lt;em&gt;[@id=”msg_container”]’).find_elements(:xpath, “.//&lt;/em&gt;[text()[contains(.,’@’)]]”).map { |e| e.text }.join(“,”)&lt;/p&gt;
+&lt;h1 id=&quot;mechanize&quot;&gt;mechanize&lt;/h1&gt;
+&lt;p&gt;email_text = page.search(“//text()”).map(&amp;amp;:text).join ‘,’&lt;/p&gt;
+&lt;h1 id=&quot;httpstackoverflowcomquestions535644find-email-addresses-in-large-data-stream&quot;&gt;http://stackoverflow.com/questions/535644/find-email-addresses-in-large-data-stream&lt;/h1&gt;
+&lt;p&gt;r = Regexp.new(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}\b/)
+emails = email_text.scan(r).uniq
+if emails.length &amp;gt; 1
+  puts “Found several emails in body “ +  emails.join(‘,’)
+end
+user_email = emails.first.strip if emails.first&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+# Examples
+
+## Search images and show target page in case of errors
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;class ImageService&lt;/p&gt;
+
+&lt;p&gt;attr_accessor :agent&lt;/p&gt;
+
+&lt;p&gt;def initialize
+    @agent = Mechanize.new
+  end&lt;/p&gt;
+
+&lt;p&gt;def get_links(name)
+    page = agent.get ‘https://www.trk.in.rs/imghp’
+    form = page.form(‘f’)
+    form.q = name
+    page = agent.submit(form)&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# results
+table = page.search(&quot;.//table[@class='images_table']&quot;).first
+results = []
+table.search('a').each do |a|
+  results.append( {
+    image_url: a.search('img').first.attributes[&quot;src&quot;].to_s,
+    site_url: a.attributes[&quot;href&quot;].to_s[7..-1], # /url?q=
+  })
+end
+results   rescue
+page.body.to_s   end end ~~~
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;% if @results.class == Array %&amp;gt;
+  &amp;lt;% results.each do |res| %&amp;gt;
+    &amp;lt;%= res[:image_url] %&amp;gt;
+  &amp;lt;% end %&amp;gt;
+&amp;lt;% else %&amp;gt;
+  &amp;lt;iframe id=&quot;FileFrame&quot; src=&quot;about:blank&quot;&amp;gt;&amp;lt;/iframe&amp;gt;
+  &amp;lt;script type=&quot;text/javascript&quot;&amp;gt;
+    var doc = document.getElementById('FileFrame').contentWindow.document;
+    doc.open();
+    doc.write('&amp;lt;%=raw @results %&amp;gt;');
+    doc.close();
+  &amp;lt;/script&amp;gt;
+&amp;lt;% end %&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;some sites provide nice rss feed, for example elance https://www.elance.com/php/search/main/resultsproject.php?matchType=project&amp;amp;rss=1&amp;amp;matchKeywords=rails+-php&amp;amp;statusFilter=10037&amp;amp;sortBy=timelistedSort&amp;amp;sortOrder=1&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;headless-chrome-on-heroku&quot;&gt;Headless chrome on heroku&lt;/h1&gt;
+
+&lt;p&gt;To run chrome on heroku you need chrome and chromedriver
+&lt;a href=&quot;https://github.com/heroku/heroku-buildpack-google-chrome&quot;&gt;https://github.com/heroku/heroku-buildpack-google-chrome&lt;/a&gt;
+&lt;a href=&quot;https://github.com/heroku/heroku-buildpack-chromedriver&quot;&gt;https://github.com/heroku/heroku-buildpack-chromedriver&lt;/a&gt;
+After adding buildpacks you need to initialize Selenium with correct path to
+google chrome&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;options = Selenium::WebDriver::Chrome::Options.new
+options.add_argument('--headless')
+if chrome_bin = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+  options.binary = chrome_bin
+end
+driver = Selenium::WebDriver.for :chrome, options: options
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;One alternative solution, which does not rely on selenium
+&lt;a href=&quot;https://github.com/yujiosaka/headless-chrome-crawler&quot;&gt;https://github.com/yujiosaka/headless-chrome-crawler&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;alternatives&quot;&gt;Alternatives&lt;/h1&gt;
+
+&lt;p&gt;https://github.com/gokhandemirhan/KimonoAlternatives&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Find selectors using javascript https://github.com/cantino/selectorgadget and
+chrome extension&lt;/li&gt;
+  &lt;li&gt;https://webscraper.io/ browser extension https://www.webscraper.io/tutorials
+nice documentation with images
+https://www.webscraper.io/documentation/selectors/link-selector
+https://github.com/webscraperio
+https://www.webscraper.io/test-sites&lt;/li&gt;
+  &lt;li&gt;browser extension and api https://www.agenty.com/docs/video-tutorials.aspx
+with example integrations https://www.agenty.com/integrations/&lt;/li&gt;
+  &lt;li&gt;https://www.octoparse.com/ without coding, graphical algorithm
+https://www.youtube.com/channel/UCweDWm1QY2G67SDAKX7nreg&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;https://import.io
+https://www.parsehub.com/
+https://scrape.it/
+https://morph.io/
+http://scrapinghub.com/
+https://www.scrapehero.com/
+http://datahut.co/
+http://scrapy.org/&lt;/p&gt;
+</description>
+        <pubDate>Wed, 15 Jan 2020 00:00:00 +0100</pubDate>
+        <link>http://duleorlovic.github.io/2020/01/15/scraping-capybara-mechanize-selenium/</link>
+        <guid isPermaLink="true">http://duleorlovic.github.io/2020/01/15/scraping-capybara-mechanize-selenium/</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>Activerecord Arel</title>
+        <description>&lt;h1 id=&quot;arel&quot;&gt;Arel&lt;/h1&gt;
+
+&lt;p&gt;https://github.com/rails/arel/tree/7-1-stable
+https://github.com/rails/rails/blob/master/activerecord/lib/arel/predications.rb
+https://www.youtube.com/watch?v=ShPAxNcLm3o&amp;amp;feature=youtu.be&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;left_outer_joins&lt;/code&gt; is available in &lt;a href=&quot;https://guides.rubyonrails.org/active_record_querying.html#left-outer-joins&quot;&gt;recent
+rails&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Online SQL to Arel http://www.scuttle.io/
+Playground https://jpospisil.com/2014/06/16/the-definitive-guide-to-arel-the-sql-manager-for-ruby.html&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bundle console
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;cheatsheet https://devhints.io/arel&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;arel_table = User.arel_table
+arel_table = Arel::Table.new(:users)
+arel_col = arel_table[:email]
+
+# select fields
+# NOTE that AS should use string instead of symbols
+arel_table.project(arel_col, arel_col.as('custom_name')).to_sql
+# aggregates
+arel_table.project arel_table[:age].sum
+arel_table.project arel_table[:age].count.as('user_count')
+
+# limit offset
+arel_table.take(3).skip(2)
+
+# order
+arel_table.order(arel_col, arel_col.desc)
+
+# where restrictions
+arel_table.where arel_col.eq 'my@email.com'
+arel_col.eq 'string'
+arel_col.gteq Date.today.beginning_of_month
+arel_col.matches &quot;%#{query}%&quot;  # generate ILIKE
+
+# AR use joins(:photos) but Arel use join
+photos = Photo.arel_table
+arel_table.join(photos, Arel::Nodes::OuterJoin).on(arel_col.eq photos[:user_id]).project(photos[:name].as('photo_name'))
+
+# functions
+SEPARATOR = Arel::Nodes.build_quoted(' ')
+
+Arel::Nodes::NamedFunction.new(
+  'concat',
+  [arel_table[:first_name], SEPARATOR, arel_table[:last_name]]
+)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;To execute you can use&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;User.select(Arel.star).to_sql # SELECT * FROM users
+# note that if you use joins it will select all columns (id of joined table will
+# override id of User) so better is to use with table
+User.select(User.arel_table[Arel.star]).to_sql # SELECT users.* FROM users
+User.select(User.arel_table[:email].as('m')).first.m
+
+User.where(User.arel_table[:email].eq('Hi')) # it the same as User.where(email: 'Hi')
+User.where(User.areal_table[:log_count].gt(200)) # SELECT users.* FORM users WHERE (users.log_count &amp;gt; 200)
+User.where(
+  User.arel_table[:email].eq('hi').and(
+    User.arel_table[:id].eq(22).or(
+      User.arel_table[:id].in(23,34)
+    )
+  )
+)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;tips&quot;&gt;Tips&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;in one request there should be only one query per table&lt;/li&gt;
+  &lt;li&gt;instead of &lt;code class=&quot;highlighter-rouge&quot;&gt;count&lt;/code&gt; use &lt;code class=&quot;highlighter-rouge&quot;&gt;.size&lt;/code&gt; (which will use ruby &lt;code class=&quot;highlighter-rouge&quot;&gt;.length&lt;/code&gt; if loaded). To
+force loading (for example to show sieze before &lt;code class=&quot;highlighter-rouge&quot;&gt;.each&lt;/code&gt; is performed) you can
+use &lt;code class=&quot;highlighter-rouge&quot;&gt;users.load.size&lt;/code&gt;. In this case there is no edditional query for
+&lt;code class=&quot;highlighter-rouge&quot;&gt;users.each&lt;/code&gt;. Only way when &lt;code class=&quot;highlighter-rouge&quot;&gt;.count&lt;/code&gt; is used is when you actually do not load
+all records, for example showing some link for all items. Similarly do not use
+&lt;code class=&quot;highlighter-rouge&quot;&gt;empty?&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;any?&lt;/code&gt; without &lt;code class=&quot;highlighter-rouge&quot;&gt;load&lt;/code&gt;. Do not use &lt;code class=&quot;highlighter-rouge&quot;&gt;present?&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;blank?&lt;/code&gt; if you do
+not need to load all. &lt;code class=&quot;highlighter-rouge&quot;&gt;exists?&lt;/code&gt; will always executes sql query.&lt;/li&gt;
+  &lt;li&gt;do not write
+&lt;a href=&quot;https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html&quot;&gt;QueryMethods&lt;/a&gt;,
+&lt;a href=&quot;https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html&quot;&gt;FinderMethods&lt;/a&gt;,
+and &lt;a href=&quot;https://api.rubyonrails.org/classes/ActiveRecord/Calculations.html&quot;&gt;Calculations&lt;/a&gt;
+inside methods on ActiveRecord objects since someone will eventually use then
+in index action and N+1 will be triggered. Use scopes instead if you need all
+nested recources (you can have several associations based on one table)
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class Post
+  has_many :comments
+  has_many :active_comments, -&amp;gt; { active }, class_name: &quot;Comment&quot;
+end
+
+class Comment
+  belongs_to :post
+  scope :active, -&amp;gt; { where(soft_deleted: false) }
+end
+
+class PostsController
+  def index
+    @posts = Post.includes(:active_comments)
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Tue, 24 Dec 2019 00:00:00 +0100</pubDate>
+        <link>http://duleorlovic.github.io/2019/12/24/activerecord-arel/</link>
+        <guid isPermaLink="true">http://duleorlovic.github.io/2019/12/24/activerecord-arel/</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>Amazon Alexa Lamdba Skill Home Automation</title>
+        <description>&lt;h1 id=&quot;alexa-developer-console&quot;&gt;Alexa developer console&lt;/h1&gt;
+
+&lt;p&gt;Invocation name could be anything.
+Intents can have variables (slots)&lt;/p&gt;
+
+&lt;h1 id=&quot;lambda&quot;&gt;Lambda&lt;/h1&gt;
+
+&lt;p&gt;Aws Lambda supports ruby
+https://aws.amazon.com/blogs/compute/announcing-ruby-support-for-aws-lambda/&lt;/p&gt;
+
+&lt;h1 id=&quot;home-automation&quot;&gt;Home automation&lt;/h1&gt;
+
+&lt;p&gt;automation
+https://github.com/sjmog/ralyxa
+https://github.com/damianFC/alexa-rubykit&lt;/p&gt;
+
+&lt;p&gt;Develop auth
+http://tech.taskrabbit.com/blog/2016/12/02/amazon-alexa-rails/&lt;/p&gt;
+
+&lt;h1 id=&quot;sns&quot;&gt;SNS&lt;/h1&gt;
+
+&lt;p&gt;https://www.youtube.com/watch?v=PsJsP-7cydk&lt;/p&gt;
+
+&lt;p&gt;To allow iam role to publish to topic
+https://docs.aws.amazon.com/sns/latest/dg/sns-access-policy-use-cases.html
+you need to attach policy.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 23 Dec 2019 00:00:00 +0100</pubDate>
+        <link>http://duleorlovic.github.io/2019/12/23/amazon-alexa-lamdba-skill-home-automation/</link>
+        <guid isPermaLink="true">http://duleorlovic.github.io/2019/12/23/amazon-alexa-lamdba-skill-home-automation/</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>Netlify Cms</title>
+        <description>&lt;p&gt;https://github.com/netlify/netlify-cms&lt;/p&gt;
+
+&lt;p&gt;Enable users to sign in with Github and create posts online
+https://www.netlifycms.org/docs/add-to-your-site/#authentication&lt;/p&gt;
+
+&lt;h1 id=&quot;configur&quot;&gt;Configur&lt;/h1&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# admin/config.yml
+backend:
+  name: git-gateway
+  branch: master
+
+publish_mode: editorial_workflow
+
+media_folder: &quot;_images&quot;
+public_folder: &quot;assets/images&quot;
+
+collections:
+  - name: &quot;blog&quot;
+    label: &quot;Blog&quot;
+    folder: &quot;_posts&quot;
+    create: true 
+    slug: &quot;---&quot;
+    # identifier_field: latin
+    editor:
+      preview: false
+    fields:
+      - {label: &quot;Layout&quot;, name: &quot;layout&quot;, widget: &quot;hidden&quot;, default: &quot;post&quot;}
+      - {label: &quot;Title&quot;, name: &quot;title&quot;, widget: &quot;string&quot;}
+      - {label: &quot;Latin&quot;, name: &quot;latin&quot;, widget: &quot;string&quot;, hint: 'Ovaj se koristi za URL posto ћирилица nije uobicajena za linkove. Kad se postavi, vise se ne moze promenuti'}
+      - {label: &quot;Publish Date&quot;, name: &quot;date&quot;, widget: &quot;date&quot;}
+      - {label: &quot;Author&quot;, name: &quot;author&quot;, widget: &quot;select&quot;, options: ['vladan', 'slobodan', 'dragutin', 'darko', 'sreten', 'branislav']}
+      - {label: &quot;Body&quot;, name: &quot;body&quot;, widget: &quot;markdown&quot;}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;domain&quot;&gt;Domain&lt;/h1&gt;
+
+&lt;p&gt;You can use netlify dns so it can automatically add domains.
+https://docs.netlify.com/domains-https/custom-domains/configure-external-dns/
+For external DNS you need to add CNAME that point to netlify.com subdomain like
+&lt;code class=&quot;highlighter-rouge&quot;&gt;practical-pare-68a238.netlify.com&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Sat, 23 Nov 2019 00:00:00 +0100</pubDate>
+        <link>http://duleorlovic.github.io/2019/11/23/netlify-cms/</link>
+        <guid isPermaLink="true">http://duleorlovic.github.io/2019/11/23/netlify-cms/</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>Google Ads Api</title>
+        <description>&lt;p&gt;https://developers.google.com/google-ads/api/docs/hotel-ads/overview&lt;/p&gt;
+</description>
+        <pubDate>Mon, 21 Oct 2019 00:00:00 +0200</pubDate>
+        <link>http://duleorlovic.github.io/2019/10/21/google-ads-api/</link>
+        <guid isPermaLink="true">http://duleorlovic.github.io/2019/10/21/google-ads-api/</guid>
+        
+        
+      </item>
+    
+  </channel>
+</rss>

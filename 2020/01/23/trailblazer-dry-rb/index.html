@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Trailblazer Dry Rb</title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="description" content="I am writing here some toughts during my work in Ruby on Rails, Javascript and other">
+      <link rel="shortcut icon" type="image/png" href="/assets/favicon.png"/>
+
+      <!-- Custom CSS -->
+      <link rel="stylesheet" href="/assets/css/main.css">
+      <link rel="stylesheet" href="/assets/css/toc.css">
+
+  </head>
+
+  <body>
+
+    <header class="site-header">
+
+      <div class="wrap">
+
+        <a class="site-title" href="/">duleorlovic - web developer</a>
+
+        <nav class="site-nav">
+          <a href="#" class="menu-icon">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+               viewBox="0 0 18 15" enable-background="new 0 0 18 15" xml:space="preserve">
+              <path fill="#505050" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0
+                h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+              <path fill="#505050" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484
+                h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+              <path fill="#505050" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0
+                c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+            </svg>
+          </a>
+          <div class="trigger">
+            
+              <a class="page-link" href="/about/">About</a>
+            
+              
+            
+              
+            
+              
+            
+          </div>
+        </nav>
+        <small>tools like
+          <a href=" 
+            /2015/04/05/common-rails-bootstrap-snippets/"
+            >Rails bootstrap</a>,
+          <a href=" /2015/11/09/rails-testing/">Rails testing</a>
+            and <a href=" 
+            /2016/04/12/rails-tips/">Rails tips</a>
+          are still in use so content can be updated!
+          <a href="javascript:void(0)"
+            onclick="document.getElementById('mc_embed_signup').classList.toggle('active');">Notify
+          me</a>
+        </small>
+	  <!-- Begin MailChimp Signup Form -->
+	  <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
+	  <style type="text/css">
+		  #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
+		  /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+		     We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+	  </style>
+	  <div id="mc_embed_signup" class="signup-form">
+	    <form action="//trk.us14.list-manage.com/subscribe/post?u=819590ae53cb08bddb952ed97&amp;id=ec1213024d" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+		<div id="mc_embed_signup_scroll">
+	    <div class="indicates-required"><span class="asterisk">*</span> indicates required</div>
+	    <div class="mc-field-group">
+		    <label for="mce-EMAIL">Email Address  <span class="asterisk">*</span>
+	    </label>
+		    <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+	    </div>
+		    <div id="mce-responses" class="clear">
+			    <div class="response" id="mce-error-response" style="display:none"></div>
+			    <div class="response" id="mce-success-response" style="display:none"></div>
+		    </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+		<div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_819590ae53cb08bddb952ed97_ec1213024d" tabindex="-1" value=""></div>
+		<div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+		</div>
+	    </form>
+	  </div>
+	  <script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
+	  <!--End mc_embed_signup-->
+
+      </div>
+    <!-- Html Elements for Search -->
+    <div id="search-demo-container">
+    <input type="text" id="search-input" placeholder="search...">
+    <ul id="results-container"></ul>
+    </div>
+
+    <!-- Script pointing to jekyll-search.js -->
+    <script src="/bower_components/simple-jekyll-search/dest/jekyll-search.js" type="text/javascript"></script>
+    <script>
+      SimpleJekyllSearch({
+        searchInput: document.getElementById('search-input'),
+        resultsContainer: document.getElementById('results-container'),
+        json: '/search.json',
+      });
+    </script>
+
+    </header>
+    <div class="page-content">
+      <div class="wrap">
+      <div class="post">
+
+  <header class="post-header">
+    <h1>Trailblazer Dry Rb</h1>
+    <p class="meta">Jan 23, 2020</p>
+  </header>
+
+  <article class="post-content">
+  <body><div id="toc-container"><table class="toc" id="toc"><tbody><tr><td><div id="toctitle"><h2>Contents</h2></div><ul><li class="toc_level-1 toc_section-1"><a href="#trailblazer"><span class="tocnumber">1</span> <span class="toctext">Trailblazer</span></a><ul><li class="toc_level-2 toc_section-2"><a href="#operation"><span class="tocnumber">1.1</span> <span class="toctext">Operation</span></a></li><li class="toc_level-2 toc_section-3"><a href="#macro"><span class="tocnumber">1.2</span> <span class="toctext">Macro</span></a></li><li class="toc_level-2 toc_section-4"><a href="#macro-api"><span class="tocnumber">1.3</span> <span class="toctext">Macro API</span></a></li><li class="toc_level-2 toc_section-5"><a href="#reform-contract"><span class="tocnumber">1.4</span> <span class="toctext">Reform Contract</span></a></li><li class="toc_level-2 toc_section-6"><a href="#representer"><span class="tocnumber">1.5</span> <span class="toctext">Representer</span></a></li><li class="toc_level-2 toc_section-7"><a href="#custom-steps"><span class="tocnumber">1.6</span> <span class="toctext">Custom steps</span></a></li><li class="toc_level-2 toc_section-8"><a href="#rails"><span class="tocnumber">1.7</span> <span class="toctext">Rails</span></a></li></ul></li><li class="toc_level-1 toc_section-9"><a href="#test"><span class="tocnumber">2</span> <span class="toctext">Test</span></a><ul><li class="toc_level-2 toc_section-10"><a href="#cells"><span class="tocnumber">2.1</span> <span class="toctext">Cells</span></a></li></ul></li><li class="toc_level-1 toc_section-11"><a href="#dry"><span class="tocnumber">3</span> <span class="toctext">Dry</span></a><ul><li class="toc_level-2 toc_section-12"><a href="#dry-validations"><span class="tocnumber">3.1</span> <span class="toctext">Dry validations</span></a></li></ul></li><li class="toc_level-1 toc_section-13"><a href="#what-you-need-to-know-for-using-trailblazer"><span class="tocnumber">4</span> <span class="toctext">What you need to know for using Trailblazer</span></a></li><li class="toc_level-1 toc_section-14"><a href="#graph-modeling"><span class="tocnumber">5</span> <span class="toctext">Graph modeling</span></a></li><li class="toc_level-1 toc_section-15"><a href="#activity"><span class="tocnumber">6</span> <span class="toctext">Activity</span></a></li></ul></td></tr></tbody></table></div><h1 id="trailblazer">Trailblazer</h1>
+
+<p>Docs in three places:
+http://trailblazer.to/guides/
+http://2019.trailblazer.to/2.1/docs/trailblazer.html
+http://trailblazer.to/api-docs/</p>
+
+<p>Concepts (dashboard index, create comment)</p>
+
+<p>Operation implement functions of the app (also called commands) and it use:</p>
+<ul>
+  <li>policy - authorizations: <code class="highlighter-rouge">Policy::Guard</code> macro</li>
+  <li>representer - cell(widget) instance methods are used in view model (no need
+for view context)</li>
+  <li>validation - forms or contracts: type check and rules</li>
+  <li>model - only associations and scopes</li>
+  <li>callback</li>
+</ul>
+
+<h2 id="operation">Operation</h2>
+
+<p>http://trailblazer.to/gems/operation/2.0/index.html
+Simple example</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class Song::Create &lt; Trailblazer::Operation
+  step :assign_current_user!
+
+  def assign_current_user!(ctx, model:, current_user:)
+    model.created_by = current_user
+  end
+end
+</code></pre></div></div>
+<p>Operation always return result object. It is called using short notation,
+instead <code class="highlighter-rouge">Operation.call(a)</code> you can write ruby alias for it <code class="highlighter-rouge">Operation.(a)</code></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>result = Song::Create.(params.merge current_user: current_user)
+result.success?
+result['model'] # =&gt; #&lt;Song ...&gt;
+</code></pre></div></div>
+
+<p>It is using <code class="highlighter-rouge">step</code> method which can be instance method, lambda or callable model</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>step :model!
+step -&gt;(ctx, **) { ctx['model'] = Song.new }
+step MyStep
+
+def model!(ctx, **)
+  ctx['model'] = Song.new
+end
+
+# define Callable
+class MyStep
+  extend Uber::Callable
+  def self.call(ctx, **)
+    ctx['model'] = Song.new
+    # return value matters
+  end
+end
+</code></pre></div></div>
+
+<p>If step return value is falsey (nil or false) than operation result is marked as
+failed and only steps marked as <code class="highlighter-rouge">failure</code> after failing step will be executed.
+You can pass fail_fast <code class="highlighter-rouge">failure :abort, fail_fast: true</code> if you do not want to
+execute other failure steps after this this.
+Instead of <code class="highlighter-rouge">step</code> you can use <code class="highlighter-rouge">success</code> which does not care about return value.</p>
+
+<p>Step accepts two arguments, <code class="highlighter-rouge">options</code> or <code class="highlighter-rouge">ctx</code> (this should act like accumulator
+since we can write output to it and it is mean to be mutable). In trailblazer
+2.0 first params passed to .call was inside <code class="highlighter-rouge">ctx['params']</code>. In trb 2.1 you need
+to explicitly call using params <code class="highlighter-rouge">result = Memo::Create.(params: params,
+current_user: current_user)</code> (first-value and second-hash params were merged to
+<code class="highlighter-rouge">ctx</code>).</p>
+
+<p>Second argument can extract keys from first, for example, you can write to
+options in each step <code class="highlighter-rouge">ctx[:new_result] = SomeClass.new</code> and you can extract
+in following steps with <code class="highlighter-rouge">def step(ctx, new_result:, **)</code> and so make it
+required.
+If you state them in method definition for very first step, than those
+arguments will be required keys in first hash in trailblazer 2.1 (trailblazer
+2.0 it should be second hash argument). double splat <code class="highlighter-rouge">**</code> means “I know there
+are more keyword arguments but I’m not intereseted right now”.</p>
+
+<h2 id="macro">Macro</h2>
+
+<p><strong>Model</strong> http://trailblazer.to/gems/operation/2.0/api.html#model-findby source
+is defined in trailblazer-macro gem (not trailblazer-operations)
+https://github.com/trailblazer/trailblazer-macro/blob/master/lib/trailblazer/macro/model.rb</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>step Model(Song, :new) # this is the same as ctx[:model] = Song.new
+step Model(Song, :find_by) # this is the same as ctx[:model] = Song.find_by params[:id]
+# There will be automatic jump to error track if can not find the model
+</code></pre></div></div>
+
+<p><strong>Nested</strong> http://trailblazer.to/gems/operation/2.0/api.html#nested can call
+other operations</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class Update &lt; Trailblazer::Operation
+  step Nested( Edit )
+
+  # you can adapt parameters using input param
+  step Nested( Multiplier, input: -&gt;(options, some_data:, **) do
+    { x: some_data[:pi_constant], y: 2 }
+  end)
+end
+</code></pre></div></div>
+
+<p><strong>Policy::Guard</strong> http://trailblazer.to/gems/operation/2.0/policy.html#guard</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>step Policy::Guard( :authorize! )
+</code></pre></div></div>
+<p>and you can access results in</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>result['policy.default']
+result['result.policy.default'].success?
+</code></pre></div></div>
+
+<p><strong>Contract::Build</strong> is defined in trailblazer-macro-contract gem
+https://github.com/trailblazer/trailblazer-macro-contract/blob/master/lib/trailblazer/operation/contract.rb#L15</p>
+
+<h2 id="macro-api">Macro API</h2>
+<p>http://trailblazer.to/gems/operation/2.0/api.html</p>
+
+<p>Macro is a capitalized name function which returns two element array: actual
+step, and default options</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module Macro
+  def self.MyPolicy(allowed_role: "admin")
+    step = -&gt;(input, options) { options["current_user"].type == allowed_role }
+
+    [ step, name: "my_policy.#{allowed_role}" ] # :before, :replace, etc. work, too.
+  end
+end
+</code></pre></div></div>
+
+<p>You can use like</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class Create &lt; Trailblazer::Operation
+  step Macro::MyPolicy( allowed_role: "manager" )
+  # ..
+end
+</code></pre></div></div>
+
+<h2 id="reform-contract">Reform Contract</h2>
+
+<p>Example contract form validation using Reform gem
+http://trailblazer.to/gems/reform/index.html
+http://trailblazer.to/gems/operation/2.0/contract.html</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gem 'dry-validation'
+gem 'reform' # it depends on disposable gem which provide a Twin decorator, and
+           # depends on representable gem which provide representer deserializer
+           # validation is in dry-validation or Activemodel::Validations
+# for rails Activemodel::Validations
+gem 'reform-rails'
+</code></pre></div></div>
+<p>Actual validation can be implemented using Reform (with ActiveModel::Validation
+or dry-validation) or using Dry::Schema (without Reform).
+It allows mapping to nested models, via composition, to hash fields.
+It is initialized with model for which you want to validate data against, and
+once read, original model’s values will never be accessed. To save to model you
+can run <code class="highlighter-rouge">form.save</code> which will call <code class="highlighter-rouge">sync</code> and <code class="highlighter-rouge">model.save</code>.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>form = Blog::Contract::Create.new Blog.last
+form.title # this will return Blog.last.title
+form.title = 'new' # this will not change blog title
+form.model.title # this old value
+
+result = form.validate title: 'new title'
+</code></pre></div></div>
+
+<p>Here is example of reform</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># app/concepts/song/contract/create.rb
+# no need to include if using rails
+# require 'reform'
+# require 'reform/form/dry'
+# include Dry
+#
+module Song::Contract
+  class Create &lt; Reform::Form
+    property :title
+
+    # populator is called when validate is triggered, but before deserialisation
+    # and actual validation happens
+    property :artist, populator: -&gt;(ctx) {}
+
+    # for has_many associations use collections
+    # prepopulator must be invoked manually in controller @form.prepopulate!
+    # this nested form
+    property :user, prepopulator: -&gt;(*) { self.user = User.new },
+                    populate_if_empty: -&gt;(*) { User.new } do # this populator
+                    # only runs when there is incoming hash, but no
+                    # corresponding nested form
+      property :email
+    end
+
+    validation do
+      required(:title).filled
+      required(:body).maybe(min_size?: 9)
+    end
+  end
+end
+</code></pre></div></div>
+<p>and can be used in operation with this API (<code class="highlighter-rouge">initialize</code>, <code class="highlighter-rouge">validate</code>, <code class="highlighter-rouge">save</code>,
+<code class="highlighter-rouge">errors</code>, <code class="highlighter-rouge">sync</code>, <code class="highlighter-rouge">prepopulate</code>)
+but we can use macros: Build, Validate, Persist
+for example in <code class="highlighter-rouge">rails c</code> you can run</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>res = Venue::Operation::Create.(params: {})
+res['contract.default'].errors
+</code></pre></div></div>
+<p>Using Macros will simplify the code:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>step Contract::Build( constant: Venue::Contract::Create )
+# this will populate contract.default (and result.contract.default) with
+# Reform.new ctx[:model]] like this line
+# ctx['contract.default'] = Venue::Contract::Create.new(ctx[:model])
+# https://github.com/trailblazer/trailblazer-macro-contract/blob/master/lib/trailblazer/operation/contract.rb#L15
+
+step Contract::Validate( key: :venue )
+# https://github.com/trailblazer/trailblazer-macro-contract/blob/master/lib/trailblazer/operation/validate.rb
+# this will fetch contract.default and valide against key
+# reform_contract = ctx["contract.default"]
+# result = reform_contract.validate(ctx["params"][:venue])
+# error will be available in result['result.contract.default'].errors.messages
+
+step Contract::Persist()
+# this will save contract data. Note that it will not change ctx['model']
+# reform_contract = ctx["contract.default"]
+# reform_contract.save
+</code></pre></div></div>
+
+<p>http://trailblazer.to/gems/reform/populator.html has two ways, <code class="highlighter-rouge">prepopulator</code> is
+for rendering and <code class="highlighter-rouge">populator</code> is on <code class="highlighter-rouge">validate</code>
+Populator function accepts</p>
+<ul>
+  <li><code class="highlighter-rouge">collection</code> it is indentical to <code class="highlighter-rouge">songs</code> (or other resources you defined)</li>
+  <li>you can access other properties since context is current form</li>
+</ul>
+
+<h2 id="representer">Representer</h2>
+
+<p>http://trailblazer.to/gems/operation/2.0/representer.html
+http://trailblazer.to/gems/representable/3.0/api.html</p>
+
+<p>incoming <strong>document</strong> is params, and output is represented object (any object
+that expose property setters)
+Example</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Band = Struct.new(:name)
+class SongRepresenter &lt; Representable::Decorator
+  include Representable::Hash
+
+  property :title
+  property :band, class: Band do
+    property :name
+  end
+end
+</code></pre></div></div>
+<p>usage</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Song = Struct.new(:title, :band)
+song = Song.new
+SongRepresenter.new(song).from_hash(title: 'Duke')
+# it will do: song.title = params[:title]
+
+input = { "title" =&gt; "Let Them Eat War", "band" =&gt; { "name" =&gt; "Bad Religion" } }
+SongRepresenter.new(song).from_hash(input)
+song.band  #=&gt; #&lt;struct Band name="Bad Religion"&gt;
+song.band.name #=&gt; "Bad Religion"
+</code></pre></div></div>
+<p>or usage in operation in Validate() using <code class="highlighter-rouge">:representer</code> key</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  step Contract::Validate( representer: MyRepresenter )
+</code></pre></div></div>
+<p>Example for rendering (which should be outside of operation)</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>result = Create.(params, document: '')
+if result.success?
+  result['representer.render.class'].new(result[:model]).to_json
+else
+end
+</code></pre></div></div>
+<h2 id="custom-steps">Custom steps</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># app/concepts/venue/lib/notification.rb
+class Venue::Notification
+  def self.call(*)
+    true
+  end
+end
+</code></pre></div></div>
+
+<p>Invoke with</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>step :notify!
+
+def notify!
+  ctx['result.notify'] = Venue::Notification.(current_user, model)
+end
+</code></pre></div></div>
+
+<h2 id="rails">Rails</h2>
+
+<p>/home/orlovic/rails/temp/trb_test
+Gemfile</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># https://github.com/trailblazer/reform/issues/500
+# reform is not ready for dry-validation ver 1 so fix to 0
+gem 'dry-validation', '~&gt; 0.10.6'
+gem 'dry-types', '~&gt; 0.10.2'
+
+gem 'trailblazer', '&gt;= 2.0.3'
+gem "trailblazer-cells"
+gem 'trailblazer-generator', require: false
+gem 'trailblazer-rails' # this will include trailblazer-loader
+
+gem 'cells-rails'
+gem "cells-slim"
+# gem 'cells-hamlit'
+
+gem 'reform-rails'
+</code></pre></div></div>
+
+<p>http://trailblazer.to/gems/trailblazer/2.0/rails.html</p>
+
+<p>It will load files from <code class="highlighter-rouge">app/concepts</code> (trailblazer-loader gem). It will load
+files for example <code class="highlighter-rouge">app/concepts/product/operation/create.rb</code> and you can use
+<code class="highlighter-rouge">Product::Create</code> class name (because trailblazer-loader do not use Rails
+autoloader and no need to use <code class="highlighter-rouge">Production::Operation::Create</code>).
+It provides <code class="highlighter-rouge">run Blog::Index</code> method that will invoke the operation, pass params
+https://github.com/trailblazer/trailblazer-rails/blob/68694ccafc58d26dcf1d715c67ac1581cb07a7fa/lib/trailblazer/rails/controller.rb#L41
+and if you want, also dependencies as <code class="highlighter-rouge">current_user</code> using <code class="highlighter-rouge">_run_options</code></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class ApplicationController &lt; ActionController::Base
+  def _run_options(options)
+    options.merge current_user: current_user
+  end
+end
+</code></pre></div></div>
+
+<p>It sets <code class="highlighter-rouge">@model</code> (also <code class="highlighter-rouge">@blog</code> which is identical to <code class="highlighter-rouge">@model</code>) and <code class="highlighter-rouge">@form</code> if
+exists (if <code class="highlighter-rouge">Contract:Build</code> was called and initialize in
+<code class="highlighter-rouge">result['contract.default']</code>) and <code class="highlighter-rouge">result</code> object (by convention operation
+should populate <code class="highlighter-rouge">result['model']</code> object or array for index operation).</p>
+
+<p>If operation can go wrong (success and error track) than you can use the block
+syntax <code class="highlighter-rouge">run Venue::Update do |result|</code> which will be called on success and you
+should <code class="highlighter-rouge">return redirect_to path</code> so the code after <code class="highlighter-rouge">run</code> will not be executed
+(fail path).</p>
+
+<p>Also it extends <code class="highlighter-rouge">render</code> to allow rendering cells</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>render cell(Blog::Cell::Index, @form), layout: false
+</code></pre></div></div>
+
+<p>All file and class names should be singular.
+Here is example controller</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># app/controllers/venues_controller.rb
+class VenuesController &lt; ApplicationController
+  def new
+    run Venue::Create::Present
+    render cell(Venue::Cell::New, @form), layout: false
+  end
+
+  def create
+    run Venue::Create do |result|
+      return redirect_to venues_path
+    end
+
+    render cell(Venue::Cell::New, @form), layout: false
+  end
+
+  def show
+    run Venue::Show
+    render cell(Venue::Cell::Show, result["model"]), layout: false
+  end
+
+  def index
+    run Venue::Index
+    render cell(Venue::Cell::Index, result["model"]), layout: false
+  end
+
+  def edit
+    run Venue::Update::Present
+    render cell(Venue::Cell::Edit, @form), layout: false
+  end
+
+  def update
+    run Venue::Update do |result|
+      flash[:notice] = "#{result["model"].title} has been saved"
+      return redirect_to venue_path(result["model"].id)
+    end
+
+    render cell(Venue::Cell::Edit, @form), layout: false
+  end
+
+  def destroy
+    run Venue::Delete
+
+    flash[:alert] = "Post deleted"
+    redirect_to venues_path
+  end
+end
+</code></pre></div></div>
+
+<h1 id="test">Test</h1>
+
+<p>Use <code class="highlighter-rouge">minitest-rails-capybara</code> gem for testing 
+<code class="highlighter-rouge">rails generate minitest:feature CanAccessHome --no-spec</code> gives</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>require "test_helper"
+
+class CanAccessHomeTest &lt; Capybara::Rails::TestCase
+  def test_homepage_has_content
+    visit root_path
+    assert page.has_content?("Home#index")
+  end
+end
+</code></pre></div></div>
+<p>but I do not see why we will use it when we have system test</p>
+
+<h2 id="cells">Cells</h2>
+
+<p>http://trailblazer.to/gems/cells/
+https://github.com/trailblazer/cells</p>
+
+<p>This View-model uses helpers that are not globals, but instance methods. It is
+faster than ActionView because there is no code.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># inside controller
+    render cell(Venue::Cell::New, @form), layout: false
+# in console
+html = Venue::Cell::New.(Venue.new, current_user: User.last).()
+</code></pre></div></div>
+
+<p>You can call <code class="highlighter-rouge">render</code> to render
+<code class="highlighter-rouge">app/concept/venue/view/new.slim</code> (template name is generated from class name).
+Use cells-slim https://github.com/trailblazer/cells-slim</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># app/concepts/venue/cell/new.rb
+module Venue::Cell
+  class New &lt; Trailblazer::Cell
+    # to use t('hi')
+    include ActionView::Helpers::TranslationHelper
+    # to use bootstrap_form_for
+    include BootstrapForm::ActionViewExtensions::FormHelper
+  end
+end
+</code></pre></div></div>
+<p>Extend cell with other methods.
+Inside template you can access <code class="highlighter-rouge">model</code> and <code class="highlighter-rouge">options</code> object.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># app/concepts/venue/cell/edit.rb
+module Venue::Cell
+  class Edit &lt; New
+    def show
+      render :new
+    end
+
+    def back
+      link_to "Back", post_path(model.id)
+    end
+
+    def delete
+      link_to "Delete Post", post_path(model.id), method: :delete
+    end
+  end
+end
+</code></pre></div></div>
+<p>You can delegate <code class="highlighter-rouge">title</code> to <code class="highlighter-rouge">context[:model].title</code></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># app/concepts/venue/cell/show.rb
+module Venue::Cell
+  class Show &lt; Trailblazer::Cell
+    property :title
+    property :body
+
+    def current_user
+      return ctx[:context][:current_user]
+    end
+
+    def time
+      model.created_at
+    end
+
+    def edit
+      link_to "Edit", edit_venue_path(model.id)
+    end
+
+    def delete
+      link_to "Delete", venue_path(model.id), method: :delete, data: {confirm: 'Are you sure?'}
+    end
+
+    def back
+      link_to "Back to posts list", venues_path
+    end
+  end
+end
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># app/concepts/venue/cell/item.rb
+module Venue::Cell
+  class Item &lt; Trailblazer::Cell
+    def title
+      link_to model.title, model unless model == nil
+    end
+
+    property :body
+
+    def created_at
+      model.created_at.strftime("%d %B %Y")
+    end
+  end
+end
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># app/concepts/venue/cell/index.rb
+module Venue::Cell
+  class Index &lt; Trailblazer::Cell
+    def total
+      return "No posts" if model.size == 0
+    end
+  end
+end
+</code></pre></div></div>
+
+<p>When I try to render cell in console it crashes since no context[:controller] is
+given and url_options are needed
+https://github.com/trailblazer/cells-rails/issues/50
+https://github.com/trailblazer/cells/issues/112</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>html = Venue::Cell::New.(Venue.new, current_user: User.last).()
+=&gt; "&lt;div id=\"remote-form\"&gt;&lt;/div&gt;"
+
+# but if I have a root_path than error is raised
+NoMethodError (undefined method `[]' for nil:NilClass)
+
+# if I call with blank context than url_options error is given
+html = Venue::Cell::New.(Venue.new, current_user: User.last, context: {}).()
+NoMethodError (undefined method `url_options' for nil:NilClass)
+
+# so solution is to call using fake controller
+html = Venue::Cell::New.(Venue.new, current_user: User.last, context: {controller: OpenStruct.new(url_options:{})}).()
+</code></pre></div></div>
+<p>To use in test you need to inherit Cell::TestCase and use cell</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># test/cell/venue/new_test.rb
+require 'test_helper'
+class VenueCellNewTest &lt; Cell::TestCase
+  test 'renders' do
+    venue = venues(:novi_sad)
+    html = cell(Venue::Cell::New, venue).()
+    assert_match /#{venue.name}/, html.to_s
+  end
+end
+</code></pre></div></div>
+<p>but I also get error for any line like <code class="highlighter-rouge">root_path</code></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error:
+VenueCellNewTest#test_renders:
+NoMethodError: undefined method `url_options' for nil:NilClass
+    /home/orlovic/.rvm/rubies/ruby-2.6.3/lib/ruby/2.6.0/forwardable.rb:228:in `url_options'
+    actionpack (6.0.2.1) lib/action_dispatch/routing/route_set.rb:265:in `call'
+</code></pre></div></div>
+<p>so when I step into cell
+https://github.com/trailblazer/cells/blob/master/lib/cell/testing.rb#L8 which
+will call cell_for args so found than it uses context of controller_class
+https://github.com/trailblazer/cells/blob/master/lib/cell/testing.rb#L60
+can also pass fake controller</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+</code></pre></div></div>
+<p>In rails
+https://github.com/trailblazer/cells-rails/blob/master/lib/cell/rails.rb#L12</p>
+
+<h1 id="dry">Dry</h1>
+
+<p>Disposable Twins API http://trailblazer.to/gems/disposable/api.html
+use dry-types https://dry-rb.org/gems/dry-types/1.2/</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>property :name, type: ::Types::String
+# coercion
+property :id, type: Types::Form::Int, nilify: true
+</code></pre></div></div>
+
+<h2 id="dry-validations">Dry validations</h2>
+
+<p>Debug in console</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>schema = Dry::Validation::Schema() { required(:name).filled }
+schema.call name: ''
+</code></pre></div></div>
+<p>Example or dry-validations https://dry-rb.org/gems/dry-validation/0.13/optional-keys-and-values/</p>
+<ul>
+  <li><code class="highlighter-rouge">.maybe</code> is used when it is valid that value could be <code class="highlighter-rouge">nil</code></li>
+  <li><code class="highlighter-rouge">optional(:f).filled</code> is when it is not required, but when it is present it
+should be filled (not a nil, empty sting, array or hash)</li>
+  <li><code class="highlighter-rouge">optional(:n).maybe :int?, included_in?: [1, 3]</code> it is optional and it could
+be present with <code class="highlighter-rouge">nil</code> value, or 1 or 3 (can not be empty string, maybe is only
+allows to nil, but if you use <code class="highlighter-rouge">type: Types::Params::Integer</code> than coercion
+will make empty string to nil)
+https://dry-rb.org/gems/dry-validation/0.13/basics/macros/#maybe
+https://dry-rb.org/gems/dry-validation/0.13/basics/built-in-predicates/#code-included_in-code</li>
+</ul>
+
+<h1 id="what-you-need-to-know-for-using-trailblazer">What you need to know for using Trailblazer</h1>
+
+<ul>
+  <li>you need to learn DSL which change from version to version. You lose if you do
+not follow up documentation.</li>
+  <li>errors for trailblazer because of eager loading or something, restart server
+helps
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>uninitialized constant #&lt;Class:0x00007f6b986a5da0&gt;::Index Did you mean? Bindex` .
+NameError (uninitialized constant #&lt;Class:0x000055ab8fc752f0&gt;::Update
+</code></pre></div>    </div>
+    <p>This can be solved by writing <code class="highlighter-rouge">module [ConceptName}::Operation</code> and in next
+line <code class="highlighter-rouge">class Update &lt; Trailblazer::Operation</code> so it is properly loaded with
+rails autoloader, you need to disable trailblazer loader</p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># config/initializers/trailblazer.rb
+
+YourApp::Application.config.trailblazer.enable_loader = false
+</code></pre></div>    </div>
+  </li>
+  <li>can not use form partials, for example if you want to render another partial
+https://github.com/trailblazer/cells/issues/460
+https://stackoverflow.com/questions/47069460/rendering-partial-forms-in-trailblazer-cells</li>
+</ul>
+
+<h1 id="graph-modeling">Graph modeling</h1>
+<p>http://trailblazer.to/api-docs/#what-is-trailblazer 2.1</p>
+
+<p>Instead of subclassing we use compositions. Inside <code class="highlighter-rouge">module</code> we call
+<code class="highlighter-rouge">module_function</code> so it is more readable and allows to use <code class="highlighter-rouge">method</code> to attach a
+module method to a step</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module Memo::Update
+  extend Trailbazer::Activity::Railway()
+
+  module_function
+
+  def find_model(ctx, id:, **)
+    ctx[:model] = Memo.find_by id: id
+  end
+
+  step method(:find_model)
+end
+</code></pre></div></div>
+
+<p>Invoke like</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ctx = { id: 1, params: { body: 'Awesome' } }
+event, (ctx, *) = Memo::Update.( [ctx, {}] )
+pp ctx #=&gt;
+{ id: 1,
+  params: { body: 'Awesome' },
+  model: #&lt;struct Test::Memo body=nil&gt;,
+  errors: 'body not long enough',
+}
+</code></pre></div></div>
+
+<h1 id="activity">Activity</h1>
+
+<p>https://2019.trailblazer.to/2.1/docs/activity.html#activity-strategy</p>
+
+<p>For Path, it is automatically wired <code class="highlighter-rouge">:success / Activity::Right</code> semantic /
+signal. You need to manually wire other outputs</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class Create &lt; Trailblazer::Activity::Path
+  step :validate, Output(Activity::Left, :failure) =&gt; End(:invalid)
+  step :create
+  # ...
+end
+</code></pre></div></div>
+<p>You can jump to <code class="highlighter-rouge">End(:db_error)</code> or back to track <code class="highlighter-rouge">Track(:success)</code>.
+When you use you get semantic of last</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ctx = {params: nil}
+signal, (ctx, flow_options) = Memo::Create.([ctx, {}])
+
+puts signal #=&gt; #&lt;Trailblazer::Activity::End semantic=:invalid&gt;
+</code></pre></div></div>
+
+<p>For Railway there are two tracks</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class Create &lt; Trailblazer::Activity::Railway
+  step :validate
+  fail :log_error, Output(:success) =&gt; Track(:success)
+  step :create
+  # ...
+end
+</code></pre></div></div>
+<p>You can use <code class="highlighter-rouge">pass :create</code> so both success and failure will end in <code class="highlighter-rouge">End success</code></p>
+
+</body>
+  </article>
+
+  
+  
+  
+  
+    
+  
+  
+  
+  
+  
+  
+  
+  
+
+</div>
+
+      </div>
+    </div>
+
+    <style type='text/css'>
+      .similar-links {
+        display: inline-block;
+        padding: 10px;
+      }
+    </style>
+    <footer class="site-footer">
+
+      <div class="wrap">
+
+        <h2 class="footer-heading">duleorlovic - web developer</h2>
+
+        <div class="footer-col-1 column">
+          <ul>
+            <li><a href="http://duleorlovic.github.io/tips/">short indistinct tips</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col-2 column">
+          <ul>
+            <li>
+              <a href="https://github.com/duleorlovic">
+                <span class="icon github">
+                  <svg version="1.1" class="github-icon-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                     viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
+                    <path fill-rule="evenodd" clip-rule="evenodd" fill="#C2C2C2" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761
+                    c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32
+                    c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472
+                    c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037
+                    C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65
+                    c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261
+                    c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082
+                    c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129
+                    c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                  </svg>
+                </span>
+                <span class="username">duleorlovic</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer-col-3 column">
+          <p class="text">I am writing here some toughts during my work in Ruby on Rails, Javascript and other</p>
+        </div>
+
+      </div>
+
+    </footer>
+
+  </body>
+</html>

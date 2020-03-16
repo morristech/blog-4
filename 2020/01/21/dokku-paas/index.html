@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Dokku Paas</title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="description" content="I am writing here some toughts during my work in Ruby on Rails, Javascript and other">
+      <link rel="shortcut icon" type="image/png" href="/assets/favicon.png"/>
+
+      <!-- Custom CSS -->
+      <link rel="stylesheet" href="/assets/css/main.css">
+      <link rel="stylesheet" href="/assets/css/toc.css">
+
+  </head>
+
+  <body>
+
+    <header class="site-header">
+
+      <div class="wrap">
+
+        <a class="site-title" href="/">duleorlovic - web developer</a>
+
+        <nav class="site-nav">
+          <a href="#" class="menu-icon">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+               viewBox="0 0 18 15" enable-background="new 0 0 18 15" xml:space="preserve">
+              <path fill="#505050" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0
+                h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+              <path fill="#505050" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484
+                h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+              <path fill="#505050" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0
+                c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+            </svg>
+          </a>
+          <div class="trigger">
+            
+              <a class="page-link" href="/about/">About</a>
+            
+              
+            
+              
+            
+              
+            
+          </div>
+        </nav>
+        <small>tools like
+          <a href=" 
+            /2015/04/05/common-rails-bootstrap-snippets/"
+            >Rails bootstrap</a>,
+          <a href=" /2015/11/09/rails-testing/">Rails testing</a>
+            and <a href=" 
+            /2016/04/12/rails-tips/">Rails tips</a>
+          are still in use so content can be updated!
+          <a href="javascript:void(0)"
+            onclick="document.getElementById('mc_embed_signup').classList.toggle('active');">Notify
+          me</a>
+        </small>
+	  <!-- Begin MailChimp Signup Form -->
+	  <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
+	  <style type="text/css">
+		  #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
+		  /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+		     We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+	  </style>
+	  <div id="mc_embed_signup" class="signup-form">
+	    <form action="//trk.us14.list-manage.com/subscribe/post?u=819590ae53cb08bddb952ed97&amp;id=ec1213024d" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+		<div id="mc_embed_signup_scroll">
+	    <div class="indicates-required"><span class="asterisk">*</span> indicates required</div>
+	    <div class="mc-field-group">
+		    <label for="mce-EMAIL">Email Address  <span class="asterisk">*</span>
+	    </label>
+		    <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+	    </div>
+		    <div id="mce-responses" class="clear">
+			    <div class="response" id="mce-error-response" style="display:none"></div>
+			    <div class="response" id="mce-success-response" style="display:none"></div>
+		    </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+		<div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_819590ae53cb08bddb952ed97_ec1213024d" tabindex="-1" value=""></div>
+		<div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+		</div>
+	    </form>
+	  </div>
+	  <script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
+	  <!--End mc_embed_signup-->
+
+      </div>
+    <!-- Html Elements for Search -->
+    <div id="search-demo-container">
+    <input type="text" id="search-input" placeholder="search...">
+    <ul id="results-container"></ul>
+    </div>
+
+    <!-- Script pointing to jekyll-search.js -->
+    <script src="/bower_components/simple-jekyll-search/dest/jekyll-search.js" type="text/javascript"></script>
+    <script>
+      SimpleJekyllSearch({
+        searchInput: document.getElementById('search-input'),
+        resultsContainer: document.getElementById('results-container'),
+        json: '/search.json',
+      });
+    </script>
+
+    </header>
+    <div class="page-content">
+      <div class="wrap">
+      <div class="post">
+
+  <header class="post-header">
+    <h1>Dokku Paas</h1>
+    <p class="meta">Jan 21, 2020</p>
+  </header>
+
+  <article class="post-content">
+  <body><div id="toc-container"><table class="toc" id="toc"><tbody><tr><td><div id="toctitle"><h2>Contents</h2></div><ul><li class="toc_level-1 toc_section-1"><a href="#dokku"><span class="tocnumber">1</span> <span class="toctext">Dokku</span></a><ul><li class="toc_level-2 toc_section-2"><a href="#posgres"><span class="tocnumber">1.1</span> <span class="toctext">Posgres</span></a></li></ul></li><li class="toc_level-1 toc_section-3"><a href="#herokuish"><span class="tocnumber">2</span> <span class="toctext">Herokuish</span></a></li><li class="toc_level-1 toc_section-4"><a href="#dockerfile"><span class="tocnumber">3</span> <span class="toctext">Dockerfile</span></a></li><li class="toc_level-1 toc_section-5"><a href="#similar"><span class="tocnumber">4</span> <span class="toctext">Similar</span></a></li></ul></td></tr></tbody></table></div><h1 id="dokku">Dokku</h1>
+
+<p><a href="https://github.com/dokku/dokku">https://github.com/dokku/dokku</a>
+Heroku-like self hosted platform as a service</p>
+
+<p>To create app you can</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dokku apps:create myApp
+
+# to find help
+dokku apps:help
+
+# to list all apps
+dokku apps:report
+
+# similar command from docker
+docker stats
+
+# to remove destroy delete all exited docker containers
+docker rm -v $(docker ps -a -q -f status=exited)
+</code></pre></div></div>
+
+<p>Redis</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Redis
+sudo dokku plugin:install https://github.com/dokku/dokku-redis.git redis
+dokku redis:create redis
+</code></pre></div></div>
+
+<p>Install swap on server, one time commands to run on server</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># enable swap http://dokku.viewdocs.io/dokku~v0.17.9/getting-started/advanced-installation/#vms-with-less-than-1gb-of-memory
+cd /var
+touch swap.img
+chmod 600 swap.img
+
+dd if=/dev/zero of=/var/swap.img bs=1024k count=1000
+mkswap /var/swap.img
+swapon /var/swap.img
+free
+
+echo "/var/swap.img    none    swap    sw    0    0" &gt;&gt; /etc/fstab
+</code></pre></div></div>
+
+<p>Config</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># add config environment variable: for buildpack based deployes envs are
+# available during build and run time (Dockerfile based are only on run-time)
+dokku config myApp
+# when setting from local than you do not need to define myApp
+dokku config:set RAILS_MASTER_KEY=`cat config/master.key`
+# it is stored in: dokku run myApp cat  /app/.env and it is updated on next
+# deploy or `ps:rebuild`
+</code></pre></div></div>
+
+<p>Restart</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dokku ps:restart rails_6
+</code></pre></div></div>
+
+<p>From local machine add remote and push the code</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># dokku.me should point to your server, without proxy
+git remote add dokku dokku@dokku.me:myApp
+
+git push dokku master
+# output should be like:
+=====&gt; Application deployed:
+       http://myApp.dokku.trk.in.rs
+
+To dokku.trk.in.rs:myApp
+ * [new branch]      master -&gt; master
+</code></pre></div></div>
+
+<p>Run commands from local</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh -t dokku@dokku.trk.in.rs run rails_6 ruby -v
+# or just using client that is downloaded in ~/.dokku
+# git clone git@github.com:dokku/dokku.git ~/.dokku
+# alias dokku='$HOME/.dokku/contrib/dokku_client.sh'
+
+dokku run ruby -v
+dokku run rails console
+</code></pre></div></div>
+
+<p>Add custom domain. On cloudlfare you can map subdomains of subdomain to dokku
+server, for example <code class="highlighter-rouge">*.a.trk.in.rs</code> so you can use any subdomain of that
+subdomain. Only think is that you need to add to your app</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dokku domains:add myApp rails.a.trk.in.rs
+dokku domains:set myApp rails.a.trk.in.rs # this will remove all other domains
+
+dokku domains:report
+dokku urls rails_6
+</code></pre></div></div>
+
+<p>You can inspect other nginx configuration by inspecting it and you can customize
+http://dokku.viewdocs.io/dokku/configuration/nginx/</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>less /etc/nginx/conf.d/dokku.conf # here we include all our apps configurations
+cat /home/dokku/rails_6/nginx.conf
+# upstream rails_6-5000 {
+#   server 172.17.0.3:5000;
+# }
+# test your application inside server
+curl 172.17.0.3:5000 -I
+# HTTP/1.1 200 OK
+
+# when accessing from outside and ssl is enabled
+curl -I rails.trk.in.rs
+# HTTP/1.1 301 Moved Permanently
+# Location: https://rails.trk.in.rs:443/
+</code></pre></div></div>
+
+<p>Enabling https with certs letsencrypt need installation of plugin</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo dokku plugin:install https://github.com/dokku/dokku-letsencrypt.git
+# set global config so we do not need to set up for each app
+dokku config:set --global DOKKU_LETSENCRYPT_EMAIL=salji@trk.in.rs
+</code></pre></div></div>
+<p>than you can enable ssl for current app domains with</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dokku letsencrypt myApp
+# add cronjob for dokku user, check with: sudo -u dokku crontab -l
+# @daily /var/lib/dokku/plugins/available/letsencrypt/cron-job
+# it calls auto-renew for all certificates on dokku server
+dokku letsencrypt:cron-job --add
+</code></pre></div></div>
+
+<p>To find all commands</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dokku letsencrypt:help
+dokku letsencrypt:ls
+</code></pre></div></div>
+
+<p>Note that wildcard certificate uses DNS-01 challenge instead of HTTP so it is
+not yet supported by dokku https://github.com/dokku/dokku-letsencrypt/issues/189
+so do not use star subdomains, otherwise you will get</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> File "/usr/lib/python2.7/site-packages/acme/client.py", line 713, in poll_authorizations
+    raise errors.TimeoutError()
+TimeoutError
+</code></pre></div></div>
+
+<p>Logs</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dokku logs # when running from local machine
+dokku logs myApp -t
+dokku nginx:access-logs myApp -t
+dokku nginx:error-logs myApp -t
+</code></pre></div></div>
+
+<h2 id="posgres">Posgres</h2>
+
+<p>Install plugin</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># add postgres plugin
+sudo dokku plugin:install https://github.com/dokku/dokku-postgres
+</code></pre></div></div>
+
+<p>Create service that usually contains only one database and name is stored in
+<code class="highlighter-rouge">cat /var/lib/dokku/services/postgres/railsdatabase/DATABASE_NAME</code>
+https://github.com/dokku/dokku-postgres/blob/master/config#L4 and is the same as
+service so we need to create separate service for separate app (backup is for
+one database with the same name as service)
+https://github.com/dokku/dokku-postgres/blob/master/common-functions#L26</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># list all postgres services
+dokku postgres:list
+
+# create postgres service with name railsdatabase
+dokku postgres:create railsdatabase
+
+# link with the app ie setting DATABASE_URL
+dokku postgres:link railsdatabase myApp
+
+# access postgres database
+dokku postgres:connect railsdatabase
+</code></pre></div></div>
+
+<p>Automatic backups to amazon s3 https://github.com/dokku/dokku-postgres/blob/355952eb1f215d791c769fd320acb0e138525658/common-functions#L171</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dokku postgres:backup-auth railsdatabase $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY
+dokku postgres:backup railsdatabase BUCKET_NAME
+
+dokku postgres:backup-schedule railsdatabase $CRON_SCHEDULE $BUCKET_NAME
+# for $CRON_SCHEDULE use https://crontab.guru/ for example `@daily`
+
+# you can manually
+dokku postgres:export railsdatabase &gt; railsdatabase.dump
+</code></pre></div></div>
+
+<p>When you download dump you can extract and import in local database</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tar -zxvf p.tgz
+pg_restore -c -U postgres -d ruby-getting-started_development -v backup/export
+</code></pre></div></div>
+<p>or you can import this binary pg_dump to dokku</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># no need to reset database, it will be automatically cleared and populated
+dokku postgres:import railsdatabase &lt; railsdatabase.dump
+
+# if you have plain text SQL (not binary) dump you can use connect
+dokku postgres:connect railsdatabase &lt; ./plain.dump
+</code></pre></div></div>
+
+<p>Mount persistent storage
+http://dokku.viewdocs.io/dokku/advanced-usage/persistent-storage/</p>
+
+<h1 id="herokuish">Herokuish</h1>
+
+<p>https://github.com/gliderlabs/herokuish
+Heroku will</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>remote: -----&gt; Removing BUNDLED WITH version in the Gemfile.lock
+</code></pre></div></div>
+
+<h1 id="dockerfile">Dockerfile</h1>
+
+<p>https://pawelurbanek.com/optimize-dokku-deployment-speed
+http://dokku.viewdocs.io/dokku/deployment/methods/dockerfiles/
+If there are <code class="highlighter-rouge">Dockerfile</code> than it will be used except there are <code class="highlighter-rouge">BUILDPACK_URL</code>
+env variable or <code class="highlighter-rouge">.buildpacks</code> file.
+If previously buildpack was used than we need to add flag to switch to docker</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dokku config:unset --no-restart myApp DOKKU_PROXY_PORT_MAP
+</code></pre></div></div>
+
+<p>Since env variables are using only during runtime phase, you can use
+docker-options plugin http://dokku.viewdocs.io/dokku/advanced-usage/docker-options/</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dokku docker-options:add node-js-app build '--build-arg NODE_ENV=production'
+</code></pre></div></div>
+<p>so if your assets depends on some env variable, you should add it.</p>
+
+<p>Dokku uses three phases:</p>
+<ul>
+  <li><code class="highlighter-rouge">build</code> the container that executes the appropriate buildpack</li>
+  <li><code class="highlighter-rouge">deploy</code> the container that executes your deployed application</li>
+  <li><code class="highlighter-rouge">run</code> the container that executes any arbitrary command via <code class="highlighter-rouge">dokku run</code></li>
+</ul>
+
+<p>You can add triggers for after deploy actions</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># app.json
+{
+  "name": "My Rails app",
+  "scripts": {
+    "dokku": {
+      "predeploy": "bundle exec rake assets:precompile",
+      "postdeploy": "bundle exec rake db:migrate"
+    }
+  }
+}
+</code></pre></div></div>
+<p>Zero downtime deploys http://dokku.viewdocs.io/dokku/deployment/zero-downtime-deploys/</p>
+
+<h1 id="similar">Similar</h1>
+<ul>
+  <li>https://github.com/caprover/caprover</li>
+</ul>
+
+<p>https://pawelurbanek.com/rails-heroku-dokku-migration
+https://github.com/githubsaturn/captainduckduck</p>
+</body>
+  </article>
+
+  
+  
+  
+  
+    
+  
+  
+  
+  
+  
+  
+  
+  
+
+</div>
+
+      </div>
+    </div>
+
+    <style type='text/css'>
+      .similar-links {
+        display: inline-block;
+        padding: 10px;
+      }
+    </style>
+    <footer class="site-footer">
+
+      <div class="wrap">
+
+        <h2 class="footer-heading">duleorlovic - web developer</h2>
+
+        <div class="footer-col-1 column">
+          <ul>
+            <li><a href="http://duleorlovic.github.io/tips/">short indistinct tips</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col-2 column">
+          <ul>
+            <li>
+              <a href="https://github.com/duleorlovic">
+                <span class="icon github">
+                  <svg version="1.1" class="github-icon-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                     viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
+                    <path fill-rule="evenodd" clip-rule="evenodd" fill="#C2C2C2" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761
+                    c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32
+                    c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472
+                    c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037
+                    C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65
+                    c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261
+                    c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082
+                    c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129
+                    c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                  </svg>
+                </span>
+                <span class="username">duleorlovic</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer-col-3 column">
+          <p class="text">I am writing here some toughts during my work in Ruby on Rails, Javascript and other</p>
+        </div>
+
+      </div>
+
+    </footer>
+
+  </body>
+</html>
